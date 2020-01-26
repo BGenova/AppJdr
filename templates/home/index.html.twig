@@ -50,17 +50,17 @@
                 {% for game in games %}
                     <article class="card col-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
                         <header class="card-header bg-primary border border-secondary shadow-lg">
-                            <h4>{{ game.gamerule.icon | raw }} {{ game.title }}</h4>
+                            <h4> {{ game.title }}</h4>
                         </header>
                         <div class="card-body bg-secondary">
                             <p class="card-text">{{ game.shortDescription }}</p>
-                            <a href="{{ path('game', {'slug': game.slug,'id': game.id}) }}"
+                            <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}"
                                class="btn btn-primary text-light">Accéder au salon</a>
                         </div>
-                        <footer class="card-footer text-light">
-                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.category.icon | raw }} {{ game.gamerule.category.title }}</button>
-                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.icon | raw }} {{ game.gamerule.title }}</button>
-                        </footer>
+{#                        <footer class="card-footer text-light">#}
+{#                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.category.icon | raw }} {{ game.gamerule.category.title }}</button>#}
+{#                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.icon | raw }} {{ game.gamerule.title }}</button>#}
+{#                        </footer>#}
                     </article>
                 {% endfor %}
             </div>

@@ -33,12 +33,12 @@
 						<a class="dropdown-item h5" href="#">Mon compte</a>
 						<a class="dropdown-item h5" href="#">Modifier mon compte</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item h5" href="#">Deconnexion</a>
+						<a class="dropdown-item h5" href="{{ path('account_logout') }}">Deconnexion</a>
 					</div>
 				</li>
 			{% else %}
-				<li><a class="nav-link h5" href="#"><i class="fas fa-user-plus"></i></i> Inscription</a></li>
-				<li><a class="nav-link h5" href="#"><i class="fas fa-sign-in-alt"></i> Connnexion</a></li>
+				<li><a class="nav-link h5" href="{{ path('account_registration') }}"><i class="fas fa-user-plus"></i></i> Inscription</a></li>
+				<li><a class="nav-link h5" href="{{ path('account_login') }}"><i class="fas fa-sign-in-alt"></i> Connnexion</a></li>
 			{% endif %}
 		</ul>
 	</div>

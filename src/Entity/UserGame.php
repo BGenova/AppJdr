@@ -17,13 +17,13 @@ class UserGame
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userGames")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userGames",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="userGames")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="userGames",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $games;

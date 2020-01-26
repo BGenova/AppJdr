@@ -1,10 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block headerParagraph %}
+{% block title %}{{ game.title }}{% endblock %}
+
+
+{% block headerTitle %}{{ game.title }}
+    {% for user in usergames %}
+
+     <h1>{{ user.users.firstName }}</h1>
+    {% endfor %}{% endblock %}
+{% block headerSubtitle %}Synopsis{% endblock %}
+{% block headerParagraph %}{{ game.shortDescription }}{% endblock %}
+
+{#{% set mj = game.mj %}#}
+{% block infoTitle %}{% endblock %}
+{% block info %}
+    {#    {% set mj = game.mj %}#}
+    <div class="col">
+{#        <a href="{{ path('user_show', {'slug': mj.slug}) }}"><i class="h3 fa fa-user"></i></a>#}
+{#        <a href="{{ path('user_show', {'slug': mj.slug}) }}">{{ mj.fullName }}</a>#}
+{#        {{ mj.shortDescription | raw }}#}
+{#        <span class="badge badge-info text-uppercase">{{ mj.games | length }} Partie crée</span>#}
+        <hr>
+        <h3>Joueur</h3>
+        <hr>
+    </div>
 
 {% endblock %}
+{% block bodyTitle %}
+    {{ game.title }}
+    {{ game.owner }}
+    {{ game.shortDescription }}
 
-{% block headerTitle %}
-
+    {#    <a href="{{ path('showCategory', {'slug': game.gamerule.category.slug}) }}" class="btn btn-info m-1 float-right">{{ game.gamerule.category.title }}</a>#}
+{#    <a href="{{ path('showGamerule', {'slug': game.gamerule.slug}) }}"#}
+{#       class="btn btn-info m-1 float-right">{{ game.gamerule.title }}</a>#}
 {% endblock %}
-
+{% block body %}
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+{#            {% for slide in game.gameSlides %}#}
+{#                <li data-target="#carouselExampleIndicators"#}
+{#                    data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}></li>#}
+{#            {% endfor %}#}
+        </ol>
+        <div class="carousel-inner">
+{#            {% for slide in game.gameSlides %}#}
+{#                <div class="carousel-item {% if loop.first %}active{% endif %}">#}
+{#                    <img class="d-block w-100" src="{{ slide.url }}" alt="First slide">#}
+{#                </div>#}
+{#                <div class="carousel-caption d-none d-md-block">#}
+{#                    <h5>{{ game.title }}</h5>#}
+{#                    <p>{{ game.shortDescription }}</p>#}
+{#                </div>#}
+{#            {% endfor %}#}
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="col-12 mx-auto border border-primary mt-2 bg-primary p-3">
+        <hr>
+        <h4 class="col-4 mx-auto text-center">Description</h4>
+        <hr>
+        <p class="text-decoration-none">{{ game.longDescription | raw }}</p>
+    </div>
+{% endblock %}

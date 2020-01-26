@@ -1,10 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block headerParagraph %}
+{% block title %}Inscription{% endblock %}
+{#HEADER#}
+{% block headerTitle %}Inscription{% endblock %}
+{% block headerSubtitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat?{% endblock %}
+{#BUTTON#}
+{% block buttonSuccesUrl %}{% endblock %}
+{% block buttonSucces %}Se connecter{% endblock %}
+{% block buttonInfoUrl %}{% endblock %}
+{% block buttonInfo %}Bouton info{% endblock %}
 
+{% block infoTitle %}
+    Information
 {% endblock %}
 
-{% block headerTitle %}
+{% block info %}
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
 
+
+{% endblock%}
+{% block bodyTitle %}
+    Inscription
 {% endblock %}
+{% block body %}
 
+    <div class="container-fluid col-10 mx-auto p-3">
+        {{ form_start(form) }}
+        <fieldset class="row p-5 mt-2">
+            {{ form_widget(form) }}
+            <p>Obligatoire <strong><abbr title="Obligatoire">*</abbr></strong>.</p>
+            <button type="submit" class="btn btn-primary">Comfirmez l'inscription</button>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

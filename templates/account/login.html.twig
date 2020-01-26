@@ -1,10 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block headerParagraph %}
+{% block title %}Connexion{% endblock %}
+{# HEADER#}
+        {% block headerTitle %}{% endblock %}
+        {% block headerParagraphTitle %}{% endblock %}
+        {% block headerSubtitle %}AppJdr{% endblock %}
+        {% block headerParagraph %}<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat? adipisicing elit.
+            Incidunt, quaerat? adipisicing elit. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?</p>{%
+            endblock %}
+        {% block headerBadge %}{% endblock %}
+        {% block buttonHeader %}{% endblock %}
 
+{% block infoTitle %}
+    Information
 {% endblock %}
 
-{% block headerTitle %}
-
+{% block info %}
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit
+        inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus
+        rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt id laborum molestiae nesciunt nobis quaerat qui reprehenderit vel
+        veritatis voluptatem? Ab aliquid cum eveniet expedita facere hic impedit natus nostrum, provident quaerat ratione sapiente sint,
+        tempora vel veritatis. Ad blanditiis commodi deserunt magni maiores quo similique temporibus, voluptatum. Impedit, iusto.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur autem expedita illo ipsam iure officiis omnis perferendis
+        reiciendis suscipit vero? Adipisci culpa debitis delectus deserunt earum enim eos, error eum excepturi facere inventore iure laborum
+        maiores nesciunt nisi, nobis odio officia optio qui sapiente totam, veritatis vero! Esse, harum, minus?</p>
 {% endblock %}
+{% block bodyTitle %}
+    Connexion
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">&nbsp;</div>
+            <div class="col-md-6">
+
+                <form action="{{ path('account_login') }}" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="_username" id="email" class="form-control" placeholder=""
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="_password" id="password" class="form-control"
+                               placeholder="Mot de passe ..." required">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">S'enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- endRow -->
+    </div>
+{% endblock %}
+
 

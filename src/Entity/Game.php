@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Game
 {
@@ -88,6 +90,20 @@ class Game
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * Initialize Slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slugify = NEW Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
     }
 
     public function getTitle(): ?string
