@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Description" content="AppJdr est une application de jeu de rôle en ligne.">
+    <meta name="robots" content="index" />
+    <meta name="Distribution" content="global">
+    <meta name="Category" content="games">
+    <meta name="Copyright" content="AppJDR">
+    <meta name="Author" content="Bruno Genova">
+    <title>AppJdr - {% block title %}{% endblock %}
+    </title>
+    <link rel="icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-secondary container-fluid text-light p-0">
+
+{% include "/partials/navbar.html.twig" %}
+
+<main class="row p-0 col-11 justify-content-around mx-auto">
+    <header class="bg-secondary p-3 titleHeader jumbotron m-3 shadow p-5 text-light col-12"
+            style="background-image: url({% block headerImage %}{% endblock %})">
+        <h1>{% block headerTitle %}{% endblock %}</h1>
+        <p>{% block headerParagraphTitle %}{% endblock %}</p>
+        <hr>
+        <h2>{% block headerSubtitle %}{% endblock %}</h2>
+        <p>{% block headerParagraph %}{% endblock %}</p>
+        <div class="lead p-2 col-10 mx-auto text-center ">
+            {% block buttonHeader %}{% endblock %}
+        </div>
+    </header>
+    <section class="col-3 card bg-primary shadow-lg pb-3">
+        <hr class="bg-secondary">
+        <h3>{% block infoTitle %}{% endblock %}</h3>
+        <hr class="bg-secondary">
+        {% block info %}
+        {% endblock %}
+    </section>
+    <section class="col-9 bg-secondary pb-3">
+        <hr class="bg-primary">
+        <h3>{% block bodyTitle %}{% endblock %}</h3>
+        <hr class="bg-primary">
+
+
+        {% block body %}
+        {% endblock %}
+    </section>
+
+    {% include "/partials/footer.html.twig" %}
+</main>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/5b22f98282.js" crossorigin="anonymous"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+:root {
+    /* make the backend contents as wide as the browser window */
+    --body-max-width: 100%;
+    /* change the background color of the <body> */
+    --body-bg: #555;
+    /* make the base font size smaller */
+    --font-size-base: 12px;
+    /* remove all border radius to make corners straight */
+    --border-radius: 10px;
+
+    --color-primary: red;
+    --color-success: #28a745;
+    --color-info: #333;
+    --color-warning: #333;
+    --color-danger: #333;
+
+    --text-color: #333;
+    --text-color-dark: red;
+    --text-color-light: #333;
+
+    --form-bg: #555 ;
+    --fieldset-bg: #333;
+
+    --font-family-sans-serif: "Neucha", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue";
+}

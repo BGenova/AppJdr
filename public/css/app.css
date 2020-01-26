@@ -1,0 +1,8 @@
+.titleHeader {
+    background-size: cover;
+    background-position: center;
+}
+
+body {
+    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+}

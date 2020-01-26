@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{# HEAD #}
+{% block title %}Accueil{% endblock %}
+{# HEADER#}
+    {% block headerTitle %}Bienvenue{% endblock %}
+    {% block headerParagraphTitle %}{% endblock %}
+    {% block headerSubtitle %}AppJdr{% endblock %}
+    {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+    {% block headerBadge %}{% endblock %}
+    {% block buttonHeader %}{% endblock %}
+    {% block headerImage %}{% endblock %}
+{# BODY#}
+        {% block infoTitle %}Services{% endblock %}
+    {% block info %}
+        {#            ARTICLE #}
+        <article class="card bg-secondary mt-3 text-center border-secondary border mt-4">
+            <div class="card-header bg-primary">
+                <h4 class="card-title">Trouver des joueurs</h4>
+            </div>
+            <div class="card-body">
+                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                    of the card's content.</p>
+            </div>
+        </article>
+        {#            ARTICLE #}
+        <article class="card border-secondary border bg-secondary p-0 text-center mt-4">
+            <div class="card-header bg-primary">
+                <h4 class="card-title">Crée des vos tables</h4>
+            </div>
+            <div class="card-body">
+                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                    of the card's content.</p>
+            </div>
+        </article>
+        {#            ARTICLE #}
+        <article class="card border-secondary bg-secondary p-0 text-center mt-4">
+            <div class="card-header bg-primary">
+                <h4 class="card-title">Lancer des dés</h4>
+            </div>
+            <div class="card-body">
+                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                    of the card's content.</p>
+            </div>
+        </article>
+    {% endblock %}
+{#      LAST GAME #}
+            {% block bodyTitle %}Derniere partie{% endblock %}
+        {% block body %}
+            <div class="row justify-content-around p-3">
+                {% for game in games %}
+                    <article class="card col-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
+                        <header class="card-header bg-primary border border-secondary shadow-lg">
+                            <h4>{{ game.gamerule.icon | raw }} {{ game.title }}</h4>
+                        </header>
+                        <div class="card-body bg-secondary">
+                            <p class="card-text">{{ game.shortDescription }}</p>
+                            <a href="{{ path('game', {'slug': game.slug,'id': game.id}) }}"
+                               class="btn btn-primary text-light">Accéder au salon</a>
+                        </div>
+                        <footer class="card-footer text-light">
+                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.category.icon | raw }} {{ game.gamerule.category.title }}</button>
+                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.icon | raw }} {{ game.gamerule.title }}</button>
+                        </footer>
+                    </article>
+                {% endfor %}
+            </div>
+            </div>
+        {% endblock %}
