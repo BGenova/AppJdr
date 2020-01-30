@@ -3,25 +3,41 @@
 namespace App\Form;
 
 use App\Entity\Game;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameType extends AbstractType
+class GameType extends ApplicationType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('slug')
-            ->add('title')
-            ->add('coverImage')
-            ->add('shortDescription')
-            ->add('longDescription')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('nextGameAt')
-            ->add('owner')
-        ;
+            ->add('title', TextType::class, $this->setConfiguration('Titre de votre partie', 'Donnez un titre à votre partie', 'h3', 'h2', true))
+            ->add('shortDescription', TextType::class, $this->setConfiguration('Synopsis', 'Descrivez en quelques lignes le contexte de votre partie.', 'h3', 'h2', true))
+            ->add('longDescription', TextareaType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h3', 'h2', true))
+//            ->add('gameRule', null, [
+//                'required' => true,
+//                'label' => 'Jeu',
+//                'label_attr' => [
+//                    'class' => 'h3'
+//                ],
+//            ])
+            ->add('coverImage', UrlType::class, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
+            ->add('gameSlides', CollectionType::class,
+                [
+                    'entry_type' => GameSlideType::class,
+                    'label' => "Diaporama",
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

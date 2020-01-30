@@ -10,13 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      * @param GameRepository $gameRepository
      * @return Response
      */
     public function index(GameRepository $gameRepository)
     {
-        $games = $gameRepository->findAll();
+        $games = $gameRepository->findBy(array(),array('createdAt' => 'DESC'),6);
         return $this->render('home/index.html.twig', [
             'games' => $games,
         ]);

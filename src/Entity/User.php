@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -75,6 +76,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $hash;
+
+    /**
+     * @Assert\EqualTo(propertyPath="hash", message="Les mot de passe sont différents")
+     */
+    public $passwordConfirm;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserGame", mappedBy="users")
@@ -163,6 +169,11 @@ class User implements UserInterface
         $this->nickName = $nickName;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nickName;
     }
 
     public function getAvatar(): ?string
@@ -306,5 +317,10 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getFullName()
+    {
+        return "{$this->getFirstName()} {$this->getLastName()}";
     }
 }

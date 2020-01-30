@@ -40,6 +40,11 @@
             <div class="col-md-3">&nbsp;</div>
             <div class="col-md-6">
 
+                {% if hasError %}
+                    <div class="alert alert-danger">Une erreur est survenue, le nom d'utilisateur et/ou le mot de passe n'est pas
+                        valide</div>
+                {% endif %}
+
                 <form action="{{ path('account_login') }}" method="post">
                     <div class="form-group">
                         <label for="email">Email</label>

@@ -1,0 +1,209 @@
+{% extends "basetable.html.twig" %}
+
+{% block body %}
+
+
+    <button href="#myModal" class="btn btn-settings" data-backdrop="false" data-toggle="modal">Open Modal</button>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Settings</h4>
+
+                </div>
+                <div class="modal-body">
+                    <h3>Lorem Ipsum</h3>
+                    <p>Praesent non dictum dolor, vitae interdum erat. Nam quis consectetur mi. In consequat condimentum tortor, et lobortis est convallis ac. Quisque volutpat posuere dui, pellentesque vulputate dolor. Morbi dapibus orci eu est consectetur, sed pretium mauris laoreet. Pellentesque sodales ante non justo viverra, sit amet consectetur nisl vulputate.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="loadpage" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{#    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#register">Inscription</a>#}
+
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signLabel"><em class="fa fa-user-plus"></em> <?php echo MOD_SIGN1A ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo MOD_CLOSE ?>">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="register_form" method="post" style="margin:10px;">
+                        <div class="form-group">
+                            <label for="nom">Pseudo</label>
+                            <input type="text" placeholder="Entrez votre pseudo" id="pseudo" name="pseudo" maxlength="16"
+                                   class="form-control" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Mot de passe</label>
+                            <input type="password" placeholder="6 caractères minimum" id="pass1" name="pass1"
+                                   class="form-control" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass2">Confirmez votre mot de passe</label>
+                            <input type="password" id="pass2" name="pass2" class="form-control" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Votre adresse e-mail</label>
+                            <input type="email" placeholder="pseudo" id="email" name="email" class="form-control" required/>
+                        </div>
+                        <div id="status" class="alert alert-primary" role="alert">
+                            Merci de remplir tous les champs.
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" id="bRegister" class="btn btn-primary btn-sm" value="S'inscrire"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="mySidenav" class="sidenav overflow-auto bg-secondary text-light card bg-secondary text-danger p-0" style="height: 40px;width:
+    200px;overflow: auto">
+
+        <button href="javascript:void(0)" id="btnOpen" class="btn-primary" style="display: block" onclick="openNav()">Ouvrir les
+            aide de jeu
+        </button>
+        <button href="javascript:void(0)" id="btnClose" class=btn-primary style="display: none" onclick="closeNav()"><i class="fas
+        fa-dice-d20"></i></button>
+
+        <ul id="test" style="display: none" class="pl-5 list-unstyled">
+
+            <li>
+                <a class="nav-item h3 font-weight-bold text-light" data-toggle="collapse" href="#collapseImage" role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseExample">PJ</a>
+                <div class="collapse" id="collapseImage">
+                    <div class="card card-body bg-secondary border border-primary">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh
+                        helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a class="nav-item text-light h3 font-weight-bold" data-toggle="collapse" href="#collapseMap" role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMap">PNJ</a>
+                <div class="collapse" id="collapseMap">
+                    <ul>
+
+                        {% for slide in game.gameSlides %}
+                            <li>{{ slide.caption }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="nav-item text-light h3 font-weight-bold" data-toggle="collapse" href="#collapseMap1" role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMap">Image</a>
+                <div class="collapse" id="collapseMap1">
+                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#register">Inscription</a>
+                </div>
+            </li>
+            <li>
+                <a class="nav-item text-light h3 font-weight-bold" data-toggle="collapse" href="#collapseMap2" role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMap2">Note</a>
+                <div class="collapse" id="collapseMap2">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh
+                        helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a class="nav-item text-light h3 font-weight-bold" data-toggle="collapse" href="#collapseAideDeJeu" role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseAideDeJeu">Aide de jeu</a>
+                <div class="collapse" id="collapseAideDeJeu">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh
+                        helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-3 card bg-secondary border border-primary p-3">
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                   aria-selected="true">Biographie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                   aria-selected="false">Inventaire</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                   aria-selected="false">Note</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active text-light" id="home" role="tabpanel" aria-labelledby="home-tab">Lorem ipsum dolor sit
+                amet,
+                consectetur
+                adipisicing elit. Accusamus aspernatur debitis impedit minus placeat quas quia unde ut vero. Illo nam nesciunt odio
+                quibusdam
+                temporibus!
+            </div>
+            <div class="tab-pane fade text-light" id="profile" role="tabpanel" aria-labelledby="profile-tab">Lorem ipsum dolor sit amet,
+                consectetur
+                adipisicing elit. Culpa debitis dicta doloribus ducimus, error et fugit illo, minima neque, placeat quia quis similique sint
+                sunt voluptas. Accusantium consectetur culpa earum eos, eveniet fugit ipsum iusto minima molestias neque nostrum, odit porro
+                quibusdam quisquam quod quos saepe similique sunt ullam, voluptate!
+            </div>
+            <div class="tab-pane fade text-light" id="contact" role="tabpanel" aria-labelledby="contact-tab">Lorem ipsum dolor sit amet,
+                consectetur
+                adipisicing elit. Alias autem beatae consequatur delectus deleniti enim error eveniet exercitationem ipsum laudantium
+                maiores
+                maxime nemo nobis odio qui, saepe vel voluptatibus? Adipisci, aliquam assumenda atque consequatur culpa cumque eos excepturi
+                exercitationem laborum magnam reiciendis velit veniam? Animi dolor exercitationem facilis reprehenderit voluptatibus?
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("btnOpen").style.display = "none";
+            document.getElementById("btnClose").style.display = "block";
+            document.getElementById("test").style.display = "block";
+            document.getElementById("mySidenav").style.width = "450px";
+            document.getElementById("mySidenav").style.height = "800px";
+            document.getElementById("main").style.marginRight = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("btnOpen").style.display = "block";
+            document.getElementById("btnClose").style.display = "none";
+            document.getElementById("test").style.display = "none";
+            document.getElementById("mySidenav").style.width = "200px";
+            document.getElementById("mySidenav").style.height = "40px";
+            document.getElementById("main").style.marginRight = "0";
+        }
+
+        $("#myModal").draggable({
+            handle: ".modal-header"
+        });
+
+    </script>
+
+{% endblock %}

@@ -70,9 +70,20 @@ class Game
      */
     private $userGames;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GameSlide", mappedBy="game")
+     */
+    private $gameSlides;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameBook", inversedBy="game")
+     */
+    private $gameBook;
+
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
+        $this->gameSlides = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,6 +127,10 @@ class Game
         $this->title = $title;
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->title;
     }
 
     public function getCoverImage(): ?string
@@ -216,7 +231,6 @@ class Game
             $this->userGames[] = $userGame;
             $userGame->setGames($this);
         }
-
         return $this;
     }
 
@@ -229,6 +243,48 @@ class Game
                 $userGame->setGames(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameSlide[]
+     */
+    public function getGameSlides(): Collection
+    {
+        return $this->gameSlides;
+    }
+
+    public function addGameSlide(GameSlide $gameSlide): self
+    {
+        if (!$this->gameSlides->contains($gameSlide)) {
+            $this->gameSlides[] = $gameSlide;
+            $gameSlide->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameSlide(GameSlide $gameSlide): self
+    {
+        if ($this->gameSlides->contains($gameSlide)) {
+            $this->gameSlides->removeElement($gameSlide);
+            // set the owning side to null (unless already changed)
+            if ($gameSlide->getGame() === $this) {
+                $gameSlide->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGameBook(): ?GameBook
+    {
+        return $this->gameBook;
+    }
+
+    public function setGameBook(?GameBook $gameBook): self
+    {
+        $this->gameBook = $gameBook;
 
         return $this;
     }

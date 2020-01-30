@@ -1,10 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block headerParagraph %}
+{% block title %}Création de partie{% endblock %}
+{% block headerTitle %}Création de parties{% endblock %}
+{% block headerSubtitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block buttonSuccesUrl %}{% endblock %}
+{% block buttonSucces %}Se connecter{% endblock %}
+{% block buttonInfoUrl %}{% endblock %}
+{% block buttonInfo %}Bouton info{% endblock %}
 
+
+{% form_theme form _self %}
+{% block body %}
+    <div class="col-6 mx-auto border border-primary p-3 shadow">
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Céation de patie</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 
-{% block headerTitle %}
-
+{% block _game_gameSlides_widget %}
+    <p class="h3">Image du diaporama</p>
+    {{ form_widget(form) }}
+    <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
 {% endblock %}
 
+{% block _game_gameSlides_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _game_gameSlides_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-primary">x</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('#add-image').click(function () {
+            const index = $('#game_gameSlides div.form-group').length;
+            const tmpl = $('#game_gameSlides').data('prototype').replace(/__name__/g, index);
+            $('#game_gameSlides').append(tmpl);
+
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove()
+            });
+        }
+        handleDeleteButtons();
+    </script>
+{% endblock %}

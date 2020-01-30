@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{# HEAD #}
 {% block title %}{{ game.title }}{% endblock %}
-
-
-{% block headerTitle %}{{ game.title }}
-    {% for user in usergames %}
-
-     <h1>{{ user.users.firstName }}</h1>
-    {% endfor %}{% endblock %}
-{% block headerSubtitle %}Synopsis{% endblock %}
-{% block headerParagraph %}{{ game.shortDescription }}{% endblock %}
+{# HEADER#}
+{% block headerTitle %}{{ game.title }}{% endblock %}
+{% block headerParagraphTitle %}{% endblock %}
+{% block headerSubtitle %}AppJdr{% endblock %}
+{% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block headerBadge %}{% endblock %}
+{% block buttonHeader %}{% endblock %}
+{% block headerImage %}{{ game.coverImage }}{% endblock %}
 
 {#{% set mj = game.mj %}#}
 {% block infoTitle %}{% endblock %}
@@ -20,16 +20,24 @@
 {#        <a href="{{ path('user_show', {'slug': mj.slug}) }}">{{ mj.fullName }}</a>#}
 {#        {{ mj.shortDescription | raw }}#}
 {#        <span class="badge badge-info text-uppercase">{{ mj.games | length }} Partie crée</span>#}
-        <hr>
-        <h3>Joueur</h3>
-        <hr>
+        {% for user in usergames %}
+            {% if loop.first %}{% endif %}
+            <div class="card p-3 text-center bg-secondary col-{% if loop.first %}12{% endif %}4">{% if loop.first %}MJ{% endif %}
+                <i class=" h1 fas fa-user"></i>
+                {{ user.users.lastName }}
+                {{ user.users.firstName }}
+                {{ user.users.userGames | length }}
+            </div>{% if loop.first %}<div class="row justify-content-around col-12 mx-auto">{% endif %}
+            {% for game in user.users.userGames %}
+            {% endfor %}
+        {% endfor %}
+    </div>
     </div>
 
 {% endblock %}
 {% block bodyTitle %}
     {{ game.title }}
-    {{ game.owner }}
-    {{ game.shortDescription }}
+
 
     {#    <a href="{{ path('showCategory', {'slug': game.gamerule.category.slug}) }}" class="btn btn-info m-1 float-right">{{ game.gamerule.category.title }}</a>#}
 {#    <a href="{{ path('showGamerule', {'slug': game.gamerule.slug}) }}"#}
@@ -38,21 +46,21 @@
 {% block body %}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-{#            {% for slide in game.gameSlides %}#}
-{#                <li data-target="#carouselExampleIndicators"#}
-{#                    data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}></li>#}
-{#            {% endfor %}#}
+            {% for slide in game.gameSlides %}
+                <li data-target="#carouselExampleIndicators"
+                    data-slide-to="{{ loop.index0 }}"{% if loop.first %} class="active"{% endif %}></li>
+            {% endfor %}
         </ol>
         <div class="carousel-inner">
-{#            {% for slide in game.gameSlides %}#}
-{#                <div class="carousel-item {% if loop.first %}active{% endif %}">#}
-{#                    <img class="d-block w-100" src="{{ slide.url }}" alt="First slide">#}
-{#                </div>#}
-{#                <div class="carousel-caption d-none d-md-block">#}
-{#                    <h5>{{ game.title }}</h5>#}
-{#                    <p>{{ game.shortDescription }}</p>#}
-{#                </div>#}
-{#            {% endfor %}#}
+            {% for slide in game.gameSlides %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <img class="d-block w-100" src="{{ slide.url }}" alt="First slide">
+                </div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>{{ game.title }}</h5>
+                    <p>{{ game.shortDescription }}</p>
+                </div>
+            {% endfor %}
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

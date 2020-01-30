@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\UserGame;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\UserGameRepository;
@@ -30,6 +31,54 @@ class GameController extends AbstractController
     }
 
     /**
+     * Create new game
+     *
+     * @Route("/games/create", name="create")
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function create(Request $request)
+    {
+        $user = $this->getUser();
+        $userId = $user->getId();
+
+        $game = new Game();
+        $game->setCreatedAt(new DateTime());
+        $game->setOwner($userId);
+
+        $usergame = new UserGame();
+        $usergame->setUsers($user);
+        $usergame->setGames($game);
+
+        $form = $this->createForm(GameType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            foreach ($game->getGameSlides() as $gameSlides) {
+                $gameSlides->setGame($game);
+                $manager->persist($gameSlides);
+            }
+            $manager->persist($usergame);
+            $manager->persist($game);
+            $manager->flush();
+
+            $this->addFlash('success', "<i class=\"fas fa-check\"></i> La partie <strong>{$game->getTitle()}</strong> à bien été crée");
+            return $this->redirectToRoute('game', [
+                'id' => $game->getId(),
+                'slug' => $game->getSlug()
+            ]);
+        } else {
+            $this->addFlash('danger', "La partie {$game->getTitle()} Erreur");
+        }
+        return $this->render('game/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * Display game page
      *
      * @Route("/games/{id}", name="game")
@@ -52,43 +101,24 @@ class GameController extends AbstractController
     }
 
     /**
-     * Create new game
+     * Display table page
      *
-     * @Route("/games/create", name="create")
-     *
-     * @param Request $request
+     * @Route("/games/table/{id}", name="table")
+     * @param $id
+     * @param GameRepository $gameRepository
+     * @param UserGameRepository $userGameRepository
      * @return Response
-     * @throws \Exception
      */
-    public function create(Request $request)
+    public function showtable($id, GameRepository $gameRepository,UserGameRepository $userGameRepository)
     {
-        $game = new Game();
-        $game->setCreatedAt(new DateTime());
-        $user = $this->getUser();
-        $game->setMj($user);
+        $game = $gameRepository->findOneById($id);
+        $usergame = $userGameRepository->findBy(array('games' => $id));
 
-        $form = $this->createForm(GameType::class, $game);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            foreach ($game->getGameSlides() as $gameSlides) {
-                $gameSlides->setGame($game);
-                $manager->persist($gameSlides);
-            }
-            $manager->persist($game);
-            $manager->flush();
 
-            $this->addFlash('success', "<i class=\"fas fa-check\"></i> La partie <strong>{$game->getTitle()}</strong> à bien été crée");
-            return $this->redirectToRoute('game', [
-                'id' => $game->getId(),
-                'slug' => $game->getSlug()
-            ]);
-        } else {
-            $this->addFlash('danger', "La partie {$game->getTitle()} Erreur");
-        }
-        return $this->render('game/create.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('game/table.html.twig', [
+            'game' => $game,
+            'usergames' => $usergame
         ]);
     }
 }
