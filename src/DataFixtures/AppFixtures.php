@@ -2,7 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Game;
+use App\Entity\GameBook;
+use App\Entity\GameRule;
+use App\Entity\GameSlide;
 use App\Entity\User;
 use App\Entity\UserGame;
 use DateTime;
@@ -29,7 +33,7 @@ class AppFixtures extends Fixture
         $users = [];
         $games = [];
 
-        for($i = 1; $i <= 10; $i++){
+        for($i = 1; $i <= 100; $i++){
             $user = new User();
             $hash = $this->encoder->encodePassword($user,'password');
 
@@ -48,34 +52,71 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
 
-        for ($i = 1; $i <= 10; $i++) {
-            $user = $users[mt_rand(0, count($users) - 1)];;
-            $game = new Game();
+        //  Category GameRule Game create
+        for ($c = 1; $c <= 4; $c++) {
+            $category = new Category();
+
             $longdescription = '<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>';
-
-            $game->setTitle($faker->sentence())
-                ->setCoverImage("http://placehold.it/1000x350")
-                ->setShortDescription($faker->paragraph(2))
+            $category->setTitle($faker->sentence())
+                ->setShortDescription($category->getTitle() . " " . $faker->sentence())
                 ->setLongDescription($longdescription)
-                ->setCreatedAt(new DateTime())
-                ->setOwner(5);
-            $manager->persist($game);
+                ->setCoverImage("http://placehold.it/1000x350");
+
+            for ($r = 1; $r <= 3; $r++) {
+                $gamerule = new GameBook();
+
+                $longdescription = '<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>';
+                $gamerule->setTitle($faker->sentence(3))
+                    ->setShortDescription($faker->sentence())
+                    ->setLongDescription($longdescription)
+                    ->setCoverImage("http://placehold.it/1000x350")
+                    ->setIcon("<span class=\"text-danger\"><i class=\"fas fa-dice-d20\"></i></span>")
+                    ->setCategory($category);
+
+                for ($i = 1; $i <= 4; $i++) {
+                    $user = $users[mt_rand(0, count($users) - 1)];
+                    $server = rand(1,2);
+                    $userid = $user->getId();
+                    $game = new Game();
+                    $longdescription = '<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>';
+
+                    $game->setTitle($faker->sentence())
+                        ->setCoverImage("http://placehold.it/1000x350")
+                        ->setShortDescription($faker->paragraph(2))
+                        ->setLongDescription($longdescription)
+                        ->setCreatedAt(new DateTime())
+                        ->setNextGameAt(new DateTime())
+                        ->setGameBook($gamerule)
+                        ->setOwner($userid);
+                    $manager->persist($game);
+                    $manager->flush();
+
+
+                        $gameuser = new UserGame();
+                        $gameuser->setUsers($user);
+                    for ($i = 1; $i <= 4; $i++) {
+                        $gameuser = new UserGame();
+                        $user = $users[mt_rand(0, count($users) - 1)];
+                        $gameuser->setUsers($user);
+                        $gameuser->setGames($game);
+                        $manager->persist($gameuser);
+                    }
+                    $games[] = $game;
+
+                    for ($j = 1; $j <= 4; $j++) {
+                        $slide = new GameSlide();
+
+                        $slide->setUrl("http://placehold.it/1000x350")
+                            ->setCaption($faker->sentence())
+                            ->setGame($game);
+                        $manager->persist($slide);
+                    }
+                }
+                $manager->persist($gamerule);
+            }
+            $manager->persist($category);
             $manager->flush();
-            $games[] = $game;
         }
-        for ($i = 1; $i <= 50; $i++) {
-            $game = $games[mt_rand(0, count($games) - 1)];
-//            $gameid = $game->getId();
-            $user = $users[mt_rand(0, count($users) - 1)];
-//            $userid = $user->getId();
-
-            $gameuser = new UserGame();
-            $gameuser->setGames($game);
-            $gameuser->setUsers($user);
-
-            $manager->persist($gameuser);
-        }
-
         $manager->flush();
     }
 }

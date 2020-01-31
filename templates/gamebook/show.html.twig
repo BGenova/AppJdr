@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ gamerule.title }}{% endblock %}
+
+{# HEADER#}
+        {% block headerTitle %}{{ gamerule.title }}{% endblock %}
+        {% block headerParagraphTitle %}{% endblock %}
+        {% block headerSubtitle %}AppJdr{% endblock %}
+        {% block headerParagraph %}<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat? adipisicing elit.
+            Incidunt, quaerat? adipisicing elit. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?</p>{%
+            endblock %}
+        {% block headerBadge %}{% endblock %}
+        {% block buttonHeader %}{% endblock %}
+
+{% block infoTitle %}
+    {{ gamerule.title }}
+{% endblock %}
+
+{% block info %}
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+{% endblock %}
+{% block bodyTitle %}
+    Nos tables
+{% endblock %}
+
+    {% block body %}
+
+                <div class="row col-12 justify-content-around mx-auto">
+                    {% for game in gamerule.game %}
+
+                        <div class="card col-12 col-md-6 bg-secondary shadow-lg p-0">
+                            <div class="card-header bg-primary">
+                                <span class="badge badge-info small m-1 float-right">{{ game.gamerule.title }}</span>
+                                <h2><span class="text-danger">{{ game.gamerule.icon | raw }}</span> {{ game.title }}</h2>
+                                <img src="" alt="">
+                            </div>
+                            <div class="card-body bg-secondary">
+                                <p class="card-text">{{ game.shortDescription }}</p>
+                                <a href="{{ path('game', {'slug': game.slug,'id': game.id}) }}" class="btn btn-success">Accéder au salon</a>
+                                <a href="#" class="btn btn-info">Faire autre chose</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                Crée le : {{ game.createdAt |date('d-m-Y ') }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div> <!-- endRow -->
+
+    {% endblock %}
+

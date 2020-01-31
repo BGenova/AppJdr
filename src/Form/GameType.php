@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Game;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +22,7 @@ class GameType extends ApplicationType
         $builder
             ->add('title', TextType::class, $this->setConfiguration('Titre de votre partie', 'Donnez un titre à votre partie', 'h3', 'h2', true))
             ->add('shortDescription', TextType::class, $this->setConfiguration('Synopsis', 'Descrivez en quelques lignes le contexte de votre partie.', 'h3', 'h2', true))
-            ->add('longDescription', TextareaType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h3', 'h2', true))
+            ->add('longDescription', CKEditorType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h3', 'h2', true))
 //            ->add('gameRule', null, [
 //                'required' => true,
 //                'label' => 'Jeu',

@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GameBookRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class GameBook
 {
@@ -54,7 +56,7 @@ class GameBook
     private $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="gamebook")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="gamebook", cascade={"persist"})
      */
     private $category;
 
@@ -90,6 +92,20 @@ class GameBook
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * Initialize Slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slugify = NEW Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
     }
 
     public function getCoverImage(): ?string
@@ -181,5 +197,9 @@ class GameBook
         $this->category = $category;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }

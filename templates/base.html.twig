@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="Description" content="AppJdr est une application de jeu de rôle en ligne.">
-    <meta name="robots" content="index" />
+    <meta name="robots" content="index"/>
     <meta name="Distribution" content="global">
     <meta name="Category" content="games">
     <meta name="Copyright" content="AppJDR">
@@ -13,7 +13,8 @@
     </title>
     <link rel="icon" href="/favicon.ico"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
     {% block stylesheets %}{% endblock %}
@@ -25,13 +26,18 @@
 <main class="row p-0 col-11 justify-content-around mx-auto">
     <header class="bg-secondary p-3 titleHeader jumbotron m-3 shadow p-5 text-light col-12"
             style="background-image: url({% block headerImage %}{% endblock %})">
+        {% block headerBadge %}{% endblock %}
         <h1>{% block headerTitle %}{% endblock %}</h1>
         <p>{% block headerParagraphTitle %}{% endblock %}</p>
         <hr>
         <h2>{% block headerSubtitle %}{% endblock %}</h2>
         <p>{% block headerParagraph %}{% endblock %}</p>
         <div class="lead p-2 col-10 mx-auto text-center ">
-            {% block buttonHeader %}{% endblock %}
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{% block buttonLinkHeader %}{% endblock %}" role="button">{% block buttonHeader %}{%
+                        endblock
+                    %}</a>
+            </p>
         </div>
     </header>
     <section class="col-3 card bg-primary shadow-lg pb-3">
@@ -45,8 +51,6 @@
         <hr class="bg-primary">
         <h3>{% block bodyTitle %}{% endblock %}</h3>
         <hr class="bg-primary">
-
-
         {% block body %}
         {% endblock %}
     </section>

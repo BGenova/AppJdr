@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -87,6 +89,20 @@ class Category
         return $this;
     }
 
+    /**
+     * Initialize Slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug)) {
+            $slugify = NEW Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
+    }
+
     public function getCoverImage(): ?string
     {
         return $this->coverImage;
@@ -164,5 +180,9 @@ class Category
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }

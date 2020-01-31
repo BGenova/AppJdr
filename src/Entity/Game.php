@@ -76,14 +76,26 @@ class Game
     private $gameSlides;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameBook", inversedBy="game")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameBook", inversedBy="game", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gameBook;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GameNote", mappedBy="game",cascade={"persist"})
+     */
+    private $gameNotes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\VocalServer", inversedBy="game")
+     */
+    private $vocalServer;
 
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
         $this->gameSlides = new ArrayCollection();
+        $this->gameNotes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -285,6 +297,49 @@ class Game
     public function setGameBook(?GameBook $gameBook): self
     {
         $this->gameBook = $gameBook;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameNote[]
+     */
+    public function getGameNotes(): Collection
+    {
+        return $this->gameNotes;
+    }
+
+    public function addGameNote(GameNote $gameNote): self
+    {
+        if (!$this->gameNotes->contains($gameNote)) {
+            $this->gameNotes[] = $gameNote;
+            $gameNote->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameNote(GameNote $gameNote): self
+    {
+        if ($this->gameNotes->contains($gameNote)) {
+            $this->gameNotes->removeElement($gameNote);
+            // set the owning side to null (unless already changed)
+            if ($gameNote->getGame() === $this) {
+                $gameNote->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVocalServer(): ?VocalServer
+    {
+        return $this->vocalServer;
+    }
+
+    public function setVocalServer(?VocalServer $vocalServer): self
+    {
+        $this->vocalServer = $vocalServer;
 
         return $this;
     }

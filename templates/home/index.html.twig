@@ -3,11 +3,13 @@
 {% block title %}Accueil{% endblock %}
 {# HEADER#}
     {% block headerTitle %}Bienvenue{% endblock %}
-    {% block headerParagraphTitle %}{% endblock %}
+{% block headerParagraphTitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cum fugiat quo ut voluptates voluptatum.{% endblock %}
     {% block headerSubtitle %}AppJdr{% endblock %}
     {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
     {% block headerBadge %}{% endblock %}
-    {% block buttonHeader %}{% endblock %}
+    {% block buttonHeader %}Inscrivez-vous gratuitement !{% endblock %}
+    {% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
+
     {% block headerImage %}{% endblock %}
 {# BODY#}
         {% block infoTitle %}Services{% endblock %}
@@ -53,14 +55,19 @@
                             <h4> {{ game.title }}</h4>
                         </header>
                         <div class="card-body bg-secondary">
-                            <p class="card-text">{{ game.shortDescription }}</p>
-                            <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}"
-                               class="btn btn-primary text-light">Accéder au salon</a>
+                            <p class="card-text h5">{{ game.shortDescription }}</p>
+                            <hr>
+                            <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}" class="btn btn-primary text-light
+                            float-right">Accéder au salon</a>
+                            <p>Prochaine partie le {{ game.nextGameAt | date }}</p>
+                            <p>Serveur Vocal: {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</p>
                         </div>
-{#                        <footer class="card-footer text-light">#}
-{#                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.category.icon | raw }} {{ game.gamerule.category.title }}</button>#}
-{#                            <button class="btn btn-primary btn-sm text-uppercase float-left">{{ game.gamerule.icon | raw }} {{ game.gamerule.title }}</button>#}
-{#                        </footer>#}
+                        <footer class="card-footer text-light">
+                            <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.category.icon | raw }} {{ game
+                                .gamebook.category.title }}</button>
+                            <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
+                                .title }}</button>
+                        </footer>
                     </article>
                 {% endfor %}
             </div>

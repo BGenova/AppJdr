@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{# HEAD #}
+{% block title %}Mon compte{% endblock %}
+{# HEADER#}
+{% block headerTitle %}Mon compte{% endblock %}
+{% block headerParagraphTitle %}{% endblock %}
+{% block headerSubtitle %}AppJdr{% endblock %}
+{% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block headerBadge %}{% endblock %}
+{% block buttonHeader %}{% endblock %}
+{% block headerImage %}{% endblock %}
+{# BODY#}
+{% block infoTitle %}Information{% endblock %}
+{% block info %}
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
+        accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
+        ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
+        similique tenetur totam ullam unde ut?</p>
+
+{% endblock %}
+{% block bodyTitle %}Modification du profile{% endblock %}
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }}
+        <fieldset>
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Comfirmez l'inscription</button>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

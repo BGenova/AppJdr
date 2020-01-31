@@ -2,73 +2,30 @@
 
 {% block body %}
 
-
-    <button href="#myModal" class="btn btn-settings" data-backdrop="false" data-toggle="modal">Open Modal</button>
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Settings</h4>
-
-                </div>
-                <div class="modal-body">
-                    <h3>Lorem Ipsum</h3>
-                    <p>Praesent non dictum dolor, vitae interdum erat. Nam quis consectetur mi. In consequat condimentum tortor, et lobortis est convallis ac. Quisque volutpat posuere dui, pellentesque vulputate dolor. Morbi dapibus orci eu est consectetur, sed pretium mauris laoreet. Pellentesque sodales ante non justo viverra, sit amet consectetur nisl vulputate.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button id="loadpage" type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
 {#    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#register">Inscription</a>#}
+    {% for note in game.gameNotes %}
 
-    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
+    <div class="modal fade" id="{{ note.title }}" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signLabel"><em class="fa fa-user-plus"></em> <?php echo MOD_SIGN1A ?></h5>
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="signLabel"><em class="fa fa-user-plus">Titre</em></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo MOD_CLOSE ?>">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form id="register_form" method="post" style="margin:10px;">
-                        <div class="form-group">
-                            <label for="nom">Pseudo</label>
-                            <input type="text" placeholder="Entrez votre pseudo" id="pseudo" name="pseudo" maxlength="16"
-                                   class="form-control" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="pass1">Mot de passe</label>
-                            <input type="password" placeholder="6 caractères minimum" id="pass1" name="pass1"
-                                   class="form-control" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="pass2">Confirmez votre mot de passe</label>
-                            <input type="password" id="pass2" name="pass2" class="form-control" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Votre adresse e-mail</label>
-                            <input type="email" placeholder="pseudo" id="email" name="email" class="form-control" required/>
-                        </div>
-                        <div id="status" class="alert alert-primary" role="alert">
-                            Merci de remplir tous les champs.
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" id="bRegister" class="btn btn-primary btn-sm" value="S'inscrire"/>
-                        </div>
-                    </form>
+                <div class="modal-body bg-secondary">
+                    <h6>Titre</h6>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aliquid deserunt ducimus id ipsam laudantium molestias,
+                        mollitia necessitatibus nesciunt repellendus reprehenderit sit totam. Ad dolore et fugiat labore laboriosam, natus,
+                        provident quod recusandae reiciendis saepe tempora veritatis voluptas voluptates? Commodi dolorum explicabo, harum
+                        ipsum libero numquam praesentium quaerat ratione rerum.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    {% endfor %}
 
 
 
@@ -112,7 +69,13 @@
                    aria-expanded="false"
                    aria-controls="collapseMap">Image</a>
                 <div class="collapse" id="collapseMap1">
-                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#register">Inscription</a>
+                    <ul>
+
+                        {% for note in game.gameNotes %}
+                            <li>{{ note.title }}</li>
+                    <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#{{ note.title }}">Inscription</a>
+                        {% endfor %}
+                    </ul>
                 </div>
             </li>
             <li>
@@ -120,10 +83,12 @@
                    aria-expanded="false"
                    aria-controls="collapseMap2">Note</a>
                 <div class="collapse" id="collapseMap2">
-                    <div class="card card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh
-                        helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    </div>
+                        <ul>
+
+                            {% for note in game.gameNotes %}
+                                <li>{{ note.title }}</li>
+                            {% endfor %}
+                        </ul>
                 </div>
             </li>
             <li>
@@ -158,26 +123,7 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active text-light" id="home" role="tabpanel" aria-labelledby="home-tab">Lorem ipsum dolor sit
-                amet,
-                consectetur
-                adipisicing elit. Accusamus aspernatur debitis impedit minus placeat quas quia unde ut vero. Illo nam nesciunt odio
-                quibusdam
-                temporibus!
-            </div>
-            <div class="tab-pane fade text-light" id="profile" role="tabpanel" aria-labelledby="profile-tab">Lorem ipsum dolor sit amet,
-                consectetur
-                adipisicing elit. Culpa debitis dicta doloribus ducimus, error et fugit illo, minima neque, placeat quia quis similique sint
-                sunt voluptas. Accusantium consectetur culpa earum eos, eveniet fugit ipsum iusto minima molestias neque nostrum, odit porro
-                quibusdam quisquam quod quos saepe similique sunt ullam, voluptate!
-            </div>
-            <div class="tab-pane fade text-light" id="contact" role="tabpanel" aria-labelledby="contact-tab">Lorem ipsum dolor sit amet,
-                consectetur
-                adipisicing elit. Alias autem beatae consequatur delectus deleniti enim error eveniet exercitationem ipsum laudantium
-                maiores
-                maxime nemo nobis odio qui, saepe vel voluptatibus? Adipisci, aliquam assumenda atque consequatur culpa cumque eos excepturi
-                exercitationem laborum magnam reiciendis velit veniam? Animi dolor exercitationem facilis reprehenderit voluptatibus?
-            </div>
+           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, nemo.</p>
         </div>
     </div>
 

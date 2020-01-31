@@ -7,31 +7,40 @@
 {% block headerParagraphTitle %}{% endblock %}
 {% block headerSubtitle %}AppJdr{% endblock %}
 {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
-{% block headerBadge %}{% endblock %}
-{% block buttonHeader %}{% endblock %}
+{% block headerBadge %}
+    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.category.icon | raw }} {{ game
+        .gamebook.category.title }}</button>
+    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
+        .title }}</button>
+{% endblock %}
+{% block buttonHeader %}Créer une partie{% endblock %}
 {% block headerImage %}{{ game.coverImage }}{% endblock %}
 
 {#{% set mj = game.mj %}#}
-{% block infoTitle %}{% endblock %}
+{% block infoTitle %}Table{% endblock %}
 {% block info %}
     {#    {% set mj = game.mj %}#}
     <div class="col">
-{#        <a href="{{ path('user_show', {'slug': mj.slug}) }}"><i class="h3 fa fa-user"></i></a>#}
-{#        <a href="{{ path('user_show', {'slug': mj.slug}) }}">{{ mj.fullName }}</a>#}
-{#        {{ mj.shortDescription | raw }}#}
-{#        <span class="badge badge-info text-uppercase">{{ mj.games | length }} Partie crée</span>#}
+        {#        <a href="{{ path('user_show', {'slug': mj.slug}) }}"><i class="h3 fa fa-user"></i></a>#}
+        {#        <a href="{{ path('user_show', {'slug': mj.slug}) }}">{{ mj.fullName }}</a>#}
+        {#        {{ mj.shortDescription | raw }}#}
+        {#        <span class="badge badge-info text-uppercase">{{ mj.games | length }} Partie crée</span>#}
+                <h4 class="text-center">Maître du jeu</h4>
         {% for user in usergames %}
-            {% if loop.first %}{% endif %}
-            <div class="card p-3 text-center bg-secondary col-{% if loop.first %}12{% endif %}4">{% if loop.first %}MJ{% endif %}
+        {% if loop.first %}{% endif %}
+        <div class="card p-3 text-center bg-secondary col-{% if loop.first %}12{% endif %}4">
                 <i class=" h1 fas fa-user"></i>
                 {{ user.users.lastName }}
                 {{ user.users.firstName }}
-                {{ user.users.userGames | length }}
-            </div>{% if loop.first %}<div class="row justify-content-around col-12 mx-auto">{% endif %}
-            {% for game in user.users.userGames %}
+        </div>
+        {% if loop.first %}
+        <hr>
+        <h4 class="text-center">PJ</h4>
+        <hr>
+        <div class="row justify-content-around col-12 mx-auto">{% endif %}
+
             {% endfor %}
-        {% endfor %}
-    </div>
+        </div>
     </div>
 
 {% endblock %}
@@ -39,9 +48,9 @@
     {{ game.title }}
 
 
-    {#    <a href="{{ path('showCategory', {'slug': game.gamerule.category.slug}) }}" class="btn btn-info m-1 float-right">{{ game.gamerule.category.title }}</a>#}
-{#    <a href="{{ path('showGamerule', {'slug': game.gamerule.slug}) }}"#}
-{#       class="btn btn-info m-1 float-right">{{ game.gamerule.title }}</a>#}
+    {#    <a href="{{ path('showCategory', {'slug': game.gamebook.category.slug}) }}" class="btn btn-info m-1 float-right">{{ game.gamebook.category.title }}</a>#}
+    {#    <a href="{{ path('showGamerule', {'slug': game.gamebook.slug}) }}"#}
+    {#       class="btn btn-info m-1 float-right">{{ game.gamebook.title }}</a>#}
 {% endblock %}
 {% block body %}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

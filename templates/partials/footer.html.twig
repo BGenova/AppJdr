@@ -10,11 +10,11 @@
                 <h5 class="text-uppercase">Jeu de rôle</h5>
                 <div>
 
-                    {#         {% for gamerule in gamerules %}#}
-                    {#                            <a class="text-light btn btn-sm btn-outline-info" href="{{ path('showGamerule', {'slug': gamerule.slug}) }}">{{ gamerule.title }}</a>#}
+                    {#         {% for gamebook in gamerules %}#}
+                    {#                            <a class="text-light btn btn-sm btn-outline-info" href="{{ path('showGamerule', {'slug': gamebook.slug}) }}">{{ gamebook.title }}</a>#}
                     {#                        {% endfor %}#}
                     {% for i in 1..20 %}
-                        <a class="text-light btn btn-sm btn-outline-info" href="#">Jeu de rôle n°{{ i }}</a>
+                        <a class="text-light btn btn-sm btn-outline-info" href="{{ path('about') }}">Jeu de rôle n°{{ i }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -25,15 +25,17 @@
                     {#                            <li><a class="dropdown-item text-light" href="#">dddd</a></li>#}
                     {#                        {% endfor %}#}
                     {% for i in 1..4 %}
-                        <li><a class="text-light" href="#"</a>Catégorie {{ i }}</li>
+                        <li><a class="list-item text-light" href="{{ path('about') }}"></a><h6> Catégorie {{ i }}</h6></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="col-md-2 mb-md-0 mb-3">
                 <h5 class="text-uppercase">Contact</h5>
                 <ul class="list-unstyled text-light">
-                    <li class="nav-item"><a class="nav-link text-light" href="#"><i class="fa fa-info"></i> A propos</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#"><i class="fa fa-envelope-o"></i> Contact</a></li>
+                    <li class="list-item"><a class="nav-link text-light" href="{{ path('about') }}"><i class="fa fa-info"></i> A
+                            propos</a></li>
+                    <li class="list-item"><a class="nav-link text-light" href="{{ path('contact') }}"><i class="fa fa-envelope-o"></i>
+                            Contact</a></li>
                 </ul>
             </div>
         </div>
