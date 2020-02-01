@@ -41,7 +41,24 @@ class GameType extends ApplicationType
                     'allow_add' => true,
                     'allow_delete' => true,
                 ]
+            )
+            ->add('gameBattleMaps', CollectionType::class,
+                [
+                    'entry_type' => GameBattleMapType::class,
+                    'label' => "Diaporama",
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                ]
+            )
+            ->add('gameImages', CollectionType::class,
+                [
+                    'entry_type' => GameImageType::class,
+                    'label' => "Diaporama",
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                ]
             );
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

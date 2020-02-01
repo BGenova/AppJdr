@@ -92,10 +92,16 @@ class User implements UserInterface
      */
     private $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GameNote", mappedBy="user")
+     */
+    private $gameNotes;
+
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->gameNotes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,5 +364,36 @@ class User implements UserInterface
     public function getFullName()
     {
         return "{$this->getFirstName()} {$this->getLastName()}";
+    }
+
+    /**
+     * @return Collection|GameNote[]
+     */
+    public function getGameNotes(): Collection
+    {
+        return $this->gameNotes;
+    }
+
+    public function addGameNote(GameNote $gameNote): self
+    {
+        if (!$this->gameNotes->contains($gameNote)) {
+            $this->gameNotes[] = $gameNote;
+            $gameNote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameNote(GameNote $gameNote): self
+    {
+        if ($this->gameNotes->contains($gameNote)) {
+            $this->gameNotes->removeElement($gameNote);
+            // set the owning side to null (unless already changed)
+            if ($gameNote->getUser() === $this) {
+                $gameNote->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

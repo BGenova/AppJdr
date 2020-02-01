@@ -4,7 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Game;
+use App\Entity\GameBattleMap;
 use App\Entity\GameBook;
+use App\Entity\GameImage;
 use App\Entity\GameNote;
 use App\Entity\GameRule;
 use App\Entity\GameSlide;
@@ -115,11 +117,26 @@ class AppFixtures extends Fixture
                     }
                     for ($n = 1; $n <= 4; $n++) {
                         $note = new GameNote();
-
+                        $user = $users[mt_rand(0, count($users) - 1)];
                         $note->setTitle($faker->sentence())
                             ->setContent($faker->sentence())
-                            ->setGame($game);
+                            ->setGame($game)
+                            ->setUser($user);
                         $manager->persist($note);
+                    }
+                    for ($b = 1; $b <= 4; $b++) {
+                        $battlemap = new GameBattleMap();
+                        $battlemap->setTitle($faker->sentence())
+                            ->setUrl("http://placehold.it/1000x350")
+                            ->setGame($game);
+                        $manager->persist($battlemap);
+                    }
+                    for ($im = 1; $im <= 4; $im++) {
+                        $gameimage = new GameImage();
+                        $gameimage->setTitle($faker->sentence())
+                            ->setUrl("http://placehold.it/1000x350")
+                            ->setGame($game);
+                        $manager->persist($gameimage);
                     }
                 }
                 $manager->persist($gamerule);

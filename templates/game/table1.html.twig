@@ -1,11 +1,12 @@
 {% extends "basetable.html.twig" %}
 
     {% block body %}
-<body background="{{ game.gameSlides[0].url}}" style="background-size: 100% 100%;background-repeat: no-repeat;background-position-y: 90px;" class="bg-secondary
+<body background="{{ game.gameImages[0].url}}" style="background-size: 100% 100%;background-repeat: no-repeat;background-position-y: 90px;"
+      class="bg-secondary
 container-fluid text-light p-0">
 {% include "/partials/navbar.html.twig" %}
 
-<div class="border" style="border: dashed;">
+<div class="border" style="border: dashed;" ondrop="drop(event)" ondragover="allowDrop(event)" >
 
 
             <div id="container"></div>
@@ -30,6 +31,23 @@ container-fluid text-light p-0">
             </div>
         </div>
         {% endfor %}
+    {% for image in game.gameImages %}
+        <div class="modal fade col-12" id="note{{ image.id }}" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog" style="max-width: 60%;" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="signLabel"><em class="fa fa-book"> {{ image.title }}</em></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo MOD_CLOSE ?>">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-secondary">
+                        <img class="border col-12" src="{{ image.url }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
             <div id="desc">
 
                 <div id="mySidenav" class="sidenav overflow-auto bg-secondary text-light card bg-secondary text-danger p-0"
@@ -73,6 +91,7 @@ container-fluid text-light p-0">
                                 </ul>
                             </div>
                         </li>
+                        <hr>
                         <li>
                             <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
                                href="#collapseMap1"
@@ -94,12 +113,13 @@ container-fluid text-light p-0">
                                href="#collapseMap2"
                                role="button"
                                aria-expanded="false"
-                               aria-controls="collapseMap2">Note</a>
+                               aria-controls="collapseMap2">Image</a>
                             <div class="collapse" id="collapseMap2">
                                 <ul>
 
-                                    {% for note in game.gameNotes %}
-                                        <li>{{ note.title }}</li>
+                                    {% for image in game.gameImages %}
+                                        <li><a href="#" data-toggle="modal"
+                                               data-target="#note{{ image.id }}">{{ image.title }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -124,7 +144,7 @@ container-fluid text-light p-0">
             </div>
             <div id="mySidenavChat" class="sidenavChat overflow-hidden text-light card bg-secondary text-danger p-0"
                  style="height: 40px;width:
-    200px;overflow: auto">
+    200px;overflow: auto" draggable="true" ondragstart="drag(event)">
 
                 <button href="javascript:void(0)" id="btnOpenChat" class="btn-primary" style="display: block" onclick="openNavChat()"><i
                             class="fas fa-lock-open"></i> Ouvrir le chat
@@ -232,6 +252,22 @@ container-fluid text-light p-0">
     {% endblock %}
 
     {% block javascripts %}
+
+        <script>
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+        </script>
 
         <script>
             var width = window.innerWidth;

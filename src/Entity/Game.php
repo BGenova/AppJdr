@@ -92,11 +92,23 @@ class Game
      */
     private $vocalServer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GameBattleMap", mappedBy="game")
+     */
+    private $gameBattleMaps;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\GameImage", mappedBy="game")
+     */
+    private $gameImages;
+
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
         $this->gameSlides = new ArrayCollection();
         $this->gameNotes = new ArrayCollection();
+        $this->gameBattleMaps = new ArrayCollection();
+        $this->gameImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -341,6 +353,68 @@ class Game
     public function setVocalServer(?VocalServer $vocalServer): self
     {
         $this->vocalServer = $vocalServer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameBattleMap[]
+     */
+    public function getGameBattleMaps(): Collection
+    {
+        return $this->gameBattleMaps;
+    }
+
+    public function addGameBattleMap(GameBattleMap $gameBattleMap): self
+    {
+        if (!$this->gameBattleMaps->contains($gameBattleMap)) {
+            $this->gameBattleMaps[] = $gameBattleMap;
+            $gameBattleMap->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameBattleMap(GameBattleMap $gameBattleMap): self
+    {
+        if ($this->gameBattleMaps->contains($gameBattleMap)) {
+            $this->gameBattleMaps->removeElement($gameBattleMap);
+            // set the owning side to null (unless already changed)
+            if ($gameBattleMap->getGame() === $this) {
+                $gameBattleMap->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameImage[]
+     */
+    public function getGameImages(): Collection
+    {
+        return $this->gameImages;
+    }
+
+    public function addGameImage(GameImage $gameImage): self
+    {
+        if (!$this->gameImages->contains($gameImage)) {
+            $this->gameImages[] = $gameImage;
+            $gameImage->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameImage(GameImage $gameImage): self
+    {
+        if ($this->gameImages->contains($gameImage)) {
+            $this->gameImages->removeElement($gameImage);
+            // set the owning side to null (unless already changed)
+            if ($gameImage->getGame() === $this) {
+                $gameImage->setGame(null);
+            }
+        }
 
         return $this;
     }

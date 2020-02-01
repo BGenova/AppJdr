@@ -64,12 +64,108 @@
     </div>
 {% endblock %}
 
+{% block _game_gameBattleMaps_widget %}
+    <p class="h3">Carte de combat</p>
+    {{ form_widget(form) }}
+    <button type="button" id="add-image1" class="btn btn-primary">Ajouter une carte</button>
+{% endblock %}
+
+{% block _game_gameBattleMaps_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _game_gameBattleMaps_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.title) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-primary">x</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block _game_gameImages_widget %}
+    <p class="h3">Image</p>
+    {{ form_widget(form) }}
+    <button type="button" id="add-image2" class="btn btn-primary">Ajouter une aide de jeu</button>
+{% endblock %}
+
+{% block _game_gameImages_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _game_gameImages_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.title) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-primary">x</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block javascripts %}
     <script>
         $('#add-image').click(function () {
             const index = $('#game_gameSlides div.form-group').length;
             const tmpl = $('#game_gameSlides').data('prototype').replace(/__name__/g, index);
             $('#game_gameSlides').append(tmpl);
+
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove()
+            });
+        }
+
+        handleDeleteButtons();
+    </script>
+    <script>
+        $('#add-image1').click(function () {
+            const index = $('#game_gameBattleMaps div.form-group').length;
+            const tmpl = $('#game_gameBattleMaps').data('prototype').replace(/__name__/g, index);
+            $('#game_gameBattleMaps').append(tmpl);
+
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove()
+            });
+        }
+
+        handleDeleteButtons();
+    </script>
+    <script>
+        $('#add-image2').click(function () {
+            const index = $('#game_gameImages div.form-group').length;
+            const tmpl = $('#game_gameImages').data('prototype').replace(/__name__/g, index);
+            $('#game_gameImages').append(tmpl);
 
             handleDeleteButtons();
         });

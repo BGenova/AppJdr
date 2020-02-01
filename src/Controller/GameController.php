@@ -46,9 +46,9 @@ class GameController extends AbstractController
         $game = new Game();
         $game->setCreatedAt(new DateTime());
         $game->setOwner($user);
-        $usergame = new UserGame();
-        $usergame->setUsers($user);
-        $usergame->setGames($game);
+//        $usergame = new UserGame();
+//        $usergame->setUsers($user);
+//        $usergame->setGames($game);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
@@ -58,7 +58,15 @@ class GameController extends AbstractController
                 $gameSlides->setGame($game);
                 $manager->persist($gameSlides);
             }
-            $manager->persist($usergame);
+            foreach ($game->getGameBattleMaps() as $gameBattleMaps) {
+                $gameBattleMaps->setGame($game);
+                $manager->persist($gameBattleMaps);
+            }
+            foreach ($game->getGameImages() as $gameImages) {
+                $gameImages->setGame($game);
+                $manager->persist($gameImages);
+            }
+//            $manager->persist($usergame);
             $manager->persist($game);
             $manager->flush();
 
