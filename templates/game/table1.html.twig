@@ -1,0 +1,331 @@
+{% extends "basetable.html.twig" %}
+
+    {% block body %}
+<body background="{{ game.gameSlides[0].url}}" style="background-size: 100% 100%;background-repeat: no-repeat;background-position-y: 90px;" class="bg-secondary
+container-fluid text-light p-0">
+{% include "/partials/navbar.html.twig" %}
+
+<div class="border" style="border: dashed;">
+
+
+            <div id="container"></div>
+
+
+
+        {% for note in game.gameNotes %}
+        <div class="modal fade" id="note{{ note.id }}" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="signLabel"><em class="fa fa-book"> {{ note.title }}</em></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo MOD_CLOSE ?>">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-secondary">
+                        <h6>{{ note.title }}</h6>
+                        <p>{{ note.content }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+            <div id="desc">
+
+                <div id="mySidenav" class="sidenav overflow-auto bg-secondary text-light card bg-secondary text-danger p-0"
+                     style="height: 40px;width: 200px;overflow: auto">
+
+                    <button href="javascript:void(0)" id="btnOpen" class="btn-primary" style="display: block" onclick="openNav()"><i
+                                class="fas fa-lock-open"></i> Ouvrir les
+                        aide de jeu
+                    </button>
+                    <button href="javascript:void(0)" id="btnClose" class=btn-primary style="display: none" onclick="closeNav()"><i
+                                class="fas fa-lock"></i> Fermer les aides de jeu</button>
+
+                    <ul id="test" style="display: none" class="pt-3 list-unstyled text-center">
+
+                        <li>
+                            <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
+                               href="#collapseImage"
+                               role="button"
+                               aria-expanded="false"
+                               aria-controls="collapseExample">PJ</a>
+                            <div class="collapse" id="collapseImage">
+                                <div class="card card-body bg-secondary border border-primary">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil
+                                    anim keffiyeh
+                                    helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
+                               href="#collapseMap"
+                               role="button"
+                               aria-expanded="false"
+                               aria-controls="collapseMap">PNJ</a>
+                            <div class="collapse" id="collapseMap">
+                                <ul>
+
+                                    {% for slide in game.gameSlides %}
+                                        <li>{{ slide.caption }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
+                               href="#collapseMap1"
+                               role="button"
+                               aria-expanded="false"
+                               aria-controls="collapseMap">Note</a>
+                            <div class="collapse" id="collapseMap1">
+                                <ul>
+
+                                    {% for note in game.gameNotes %}
+                                        <li><a href="#" data-toggle="modal"
+                                                               data-target="#note{{ note.id }}">{{ note.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
+                               href="#collapseMap2"
+                               role="button"
+                               aria-expanded="false"
+                               aria-controls="collapseMap2">Note</a>
+                            <div class="collapse" id="collapseMap2">
+                                <ul>
+
+                                    {% for note in game.gameNotes %}
+                                        <li>{{ note.title }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="btn-primary btn col-11 mx-auto text-light h3 font-weight-bold m-1" data-toggle="collapse"
+                               href="#collapseAideDeJeu"
+                               role="button"
+                               aria-expanded="false"
+                               aria-controls="collapseAideDeJeu">Aide de jeu</a>
+                            <div class="collapse" id="collapseAideDeJeu">
+                                <div class="card card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil
+                                    anim keffiyeh
+                                    helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div id="mySidenavChat" class="sidenavChat overflow-hidden text-light card bg-secondary text-danger p-0"
+                 style="height: 40px;width:
+    200px;overflow: auto">
+
+                <button href="javascript:void(0)" id="btnOpenChat" class="btn-primary" style="display: block" onclick="openNavChat()"><i
+                            class="fas fa-lock-open"></i> Ouvrir le chat
+                </button>
+                <button href="javascript:void(0)" id="btnCloseChat" class=btn-primary style="display: none" onclick="closeNavChat()
+"><i class="fas fa-lock"></i> Fermer le chat</button>
+
+                <div class="container bg-primary">
+                    <div class="row chat-window col-md-12" id="chat_window_1">
+                        <div>
+                            <div class="panel panel-default border border-primary">
+                                <div class="panel-body msg_container_base overflow-auto col-12 bg-secondary mx-auto" style="height: 150px;">
+                                    <div class="row msg_container base_receive">
+                                        <div class="col-xs-10 col-md-10">
+                                            <div class="messages msg_receive">
+                                                <p>that mongodb thing looks good, huh?
+                                                    tiny master db, and huge document store</p>
+                                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row msg_container base_sent">
+                                        <div class="col-xs-10 col-md-10">
+                                            <div class="messages msg_sent">
+                                                <p>that mongodb thing looks good, huh?
+                                                    tiny master db, and huge document store</p>
+                                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row msg_container base_receive">
+                                        <div class="col-xs-10 col-md-10">
+                                            <div class="messages msg_receive">
+                                                <p>that mongodb thing looks good, huh?
+                                                    tiny master db, and huge document store</p>
+                                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row msg_container base_sent">
+                                        <div class="col-md-10 col-xs-10 ">
+                                            <div class="messages msg_sent">
+                                                <p>that mongodb thing looks good, huh?
+                                                    tiny master db, and huge document store</p>
+                                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input id="btn-input" type="text" class="form-control input-sm chat_input"
+                                           placeholder="Write your message here..."/>
+                                    <span class="input-group-btn"><button class="btn btn-secondary btn-sm" id="btn-chat">Send</button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="mySidenavDice" class="sidenavDice overflow-hidden bg-secondary text-light card text-danger p-0"
+                 style="height: 40px;width:
+    200px;overflow: auto">
+
+                <button href="javascript:void(0)" id="btnOpenDice" class="btn-primary" style="display: block" onclick="openNavDice()
+"><i class="fas fa-lock-open"></i> Ouvrir le sac de dés
+                </button>
+                <button href="javascript:void(0)" id="btnCloseDice" class="btn-primary h5" style="display: none" onclick="closeNavDice()
+"><i class="fas fa-lock"></i> Fermer le sac de dés</button>
+                <div class="row col-12 pl-5 mt-3 justify-content-between">
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D1</a>
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D2</a>
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D3</a>
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D4</a>
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D5</a>
+                    <a class="btn btn-primary btn-sm small p-0 col-2" style="height: 30px;">D6</a>
+                </div>
+            </div>
+
+        {#        <div class="col-3 card bg-secondary border border-primary p-3">#}
+
+        {#            <ul class="nav nav-tabs" id="myTab" role="tablist">#}
+        {#                <li class="nav-item">#}
+        {#                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"#}
+        {#                       aria-selected="true">Biographie</a>#}
+        {#                </li>#}
+        {#                <li class="nav-item">#}
+        {#                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"#}
+        {#                       aria-selected="false">Inventaire</a>#}
+        {#                </li>#}
+        {#                <li class="nav-item">#}
+        {#                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"#}
+        {#                       aria-selected="false">Note</a>#}
+        {#                </li>#}
+        {#            </ul>#}
+        {#            <div class="tab-content" id="myTabContent">#}
+        {#                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, nemo.</p>#}
+        {#            </div>#}
+        {#        </div>#}
+</div>
+        {% include "/partials/tablefooter.html.twig" %}
+    {% endblock %}
+
+    {% block javascripts %}
+
+        <script>
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var shadowOffset = 20;
+            var tween = null;
+            var blockSnapSize = 40;
+
+
+            var shadowRectangle = new Konva.Rect({
+                x: 0,
+                y: 0,
+                width: blockSnapSize * 1,
+                height: blockSnapSize * 1,
+                fillPatternImage: 'public/image/creation.png',
+                fill: '#FF7B17',
+                opacity: 0.6,
+                stroke: '#CF6412',
+                strokeWidth: 3,
+                dash: [20, 2]
+            });
+
+            function newRectangle(x, y, layer, stage) {
+                let rectangle = new Konva.Rect({
+                    x: x,
+                    y: y,
+                    width: blockSnapSize * 1,
+                    height: blockSnapSize * 1,
+                    fill: '#fff',
+                    stroke: '#ddd',
+                    strokeWidth: 1,
+                    shadowColor: 'black',
+                    shadowBlur: 2,
+                    shadowOffset: {x: 1, y: 1},
+                    shadowOpacity: 0.4,
+                    draggable: true
+                });
+                rectangle.on('dragstart', (e) => {
+                    shadowRectangle.show();
+                    shadowRectangle.moveToTop();
+                    rectangle.moveToTop();
+                });
+                rectangle.on('dragend', (e) => {
+                    rectangle.position({
+                        x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+                        y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
+                    });
+                    stage.batchDraw();
+                    shadowRectangle.hide();
+                });
+                rectangle.on('dragmove', (e) => {
+                    shadowRectangle.position({
+                        x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
+                        y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
+                    });
+                    stage.batchDraw();
+                });
+                layer.add(rectangle);
+            }
+
+            var stage = new Konva.Stage({
+                container: 'container',
+                width: width,
+                height: height
+            });
+
+            var gridLayer = new Konva.Layer();
+            var padding = blockSnapSize;
+            console.log(width, padding, width / padding);
+            for (var i = 0; i < width / padding; i++) {
+                gridLayer.add(new Konva.Line({
+                    points: [Math.round(i * padding) + 0.5, 0, Math.round(i * padding) + 0.5, height],
+                    stroke: '#fff',
+                    strokeWidth: 0.5,
+                }));
+            }
+
+            gridLayer.add(new Konva.Line({points: [0, 0, 10, 10]}));
+            for (var j = 0; j < height / padding; j++) {
+                gridLayer.add(new Konva.Line({
+                    points: [0, Math.round(j * padding), width, Math.round(j * padding)],
+                    stroke: '#fff',
+                    strokeWidth: 0.5,
+                }));
+            }
+
+            var layer = new Konva.Layer();
+            shadowRectangle.hide();
+            layer.add(shadowRectangle);
+            newRectangle(blockSnapSize * 1, blockSnapSize * 1, layer, stage);
+            newRectangle(blockSnapSize * 1, blockSnapSize * 1, layer, stage);
+
+            stage.add(gridLayer);
+            stage.add(layer);
+
+        </script>
+    {% endblock %}

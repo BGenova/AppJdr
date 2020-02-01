@@ -2,74 +2,75 @@
 {# HEAD #}
 {% block title %}Accueil{% endblock %}
 {# HEADER#}
-    {% block headerTitle %}Bienvenue{% endblock %}
+{% block headerTitle %}<i class="text-danger fas fa-dice-d20"></i> AppJdr{% endblock %}
 {% block headerParagraphTitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cum fugiat quo ut voluptates voluptatum.{% endblock %}
-    {% block headerSubtitle %}AppJdr{% endblock %}
-    {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
-    {% block headerBadge %}{% endblock %}
-    {% block buttonHeader %}Inscrivez-vous gratuitement !{% endblock %}
-    {% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
+{% block headerSubtitle %}Bienvenue{% endblock %}
+{% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block headerBadge %}{% endblock %}
+{% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+{% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
 
-    {% block headerImage %}{% endblock %}
+{% block headerImage %}{% endblock %}
 {# BODY#}
-        {% block infoTitle %}Services{% endblock %}
-    {% block info %}
-        {#            ARTICLE #}
-        <article class="card bg-secondary mt-3 text-center border-secondary border mt-4">
-            <div class="card-header bg-primary">
-                <h4 class="card-title">Trouver des joueurs</h4>
-            </div>
-            <div class="card-body">
-                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
-                    of the card's content.</p>
-            </div>
-        </article>
-        {#            ARTICLE #}
-        <article class="card border-secondary border bg-secondary p-0 text-center mt-4">
-            <div class="card-header bg-primary">
-                <h4 class="card-title">Crée des vos tables</h4>
-            </div>
-            <div class="card-body">
-                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
-                    of the card's content.</p>
-            </div>
-        </article>
-        {#            ARTICLE #}
-        <article class="card border-secondary bg-secondary p-0 text-center mt-4">
-            <div class="card-header bg-primary">
-                <h4 class="card-title">Lancer des dés</h4>
-            </div>
-            <div class="card-body">
-                <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
-                    of the card's content.</p>
-            </div>
-        </article>
-    {% endblock %}
+{% block infoTitle %}Services{% endblock %}
+
+{% block info %}
+    {#            ARTICLE #}
+    <article class="card bg-secondary mt-3 text-center border-secondary border mt-4">
+        <div class="card-header bg-primary">
+            <h4 class="card-title"><i class="fas fa-users"></i> Trouver des joueurs</h4>
+        </div>
+        <div class="card-body">
+            <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                of the card's content.</p>
+        </div>
+    </article>
+    {#            ARTICLE #}
+    <article class="card border-secondary border bg-secondary p-0 text-center mt-4">
+        <div class="card-header bg-primary">
+            <h4 class="card-title"><i class="fas fa-users-cog"></i> Crée des vos tables</h4>
+        </div>
+        <div class="card-body">
+            <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                of the card's content.</p>
+        </div>
+    </article>
+    {#            ARTICLE #}
+    <article class="card border-secondary bg-secondary p-0 text-center mt-4">
+        <div class="card-header bg-primary">
+            <h4 class="card-title"><i class="fas fa-dice"></i> Lancer des dés</h4>
+        </div>
+        <div class="card-body">
+            <p class=" h5 card-text">Some quick example text to build on the card title and make up the bulk
+                of the card's content.</p>
+        </div>
+    </article>
+{% endblock %}
 {#      LAST GAME #}
-            {% block bodyTitle %}Derniere partie{% endblock %}
-        {% block body %}
-            <div class="row justify-content-around p-3">
-                {% for game in games %}
-                    <article class="card col-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
-                        <header class="card-header bg-primary border border-secondary shadow-lg">
-                            <h4> {{ game.title }}</h4>
-                        </header>
-                        <div class="card-body bg-secondary">
-                            <p class="card-text h5">{{ game.shortDescription }}</p>
-                            <hr>
-                            <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}" class="btn btn-primary text-light
-                            float-right">Accéder au salon</a>
-                            <p>Prochaine partie le {{ game.nextGameAt | date }}</p>
-                            <p>Serveur Vocal: {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</p>
-                        </div>
-                        <footer class="card-footer text-light">
-                            <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.category.icon | raw }} {{ game
-                                .gamebook.category.title }}</button>
-                            <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
-                                .title }}</button>
-                        </footer>
-                    </article>
-                {% endfor %}
-            </div>
-            </div>
-        {% endblock %}
+{% block bodyTitle %}Derniere partie{% endblock %}
+{% block body %}
+    <div class="row justify-content-around p-3">
+        {% for game in games %}
+            <article class="card col-12 col-md-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
+                <header class="card-header bg-primary border border-secondary shadow-lg">
+                    <h4> {{ game.title }}</h4>
+                </header>
+                <div class="card-body bg-secondary">
+                    <p class="card-text h5">{{ game.shortDescription }}</p>
+                    <hr>
+                    <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}" class="btn btn-primary text-light
+float-right">Accéder au salon</a>
+                    <p>Prochaine partie le {{ game.nextGameAt | date }}</p>
+                    <p>Serveur Vocal: {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</p>
+                </div>
+                <footer class="card-footer text-light">
+                    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.category.icon | raw }} {{ game
+                        .gamebook.category.title }}</button>
+                    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
+                        .title }}</button>
+                </footer>
+            </article>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

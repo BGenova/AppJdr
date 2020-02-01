@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
+{# HEAD #}
+{% block title %}Accueil{% endblock %}
+{# HEADER#}
+{% block headerTitle %}<i class="text-danger fas fa-dice-d20"></i> AppJdr{% endblock %}
+{% block headerParagraphTitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cum fugiat quo ut voluptates voluptatum.{% endblock %}
+{% block headerSubtitle %}Bienvenue{% endblock %}
+{% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block headerBadge %}{% endblock %}
+{% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+{% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
 
-{% block title %}Inscription{% endblock %}
-{#HEADER#}
-{% block headerTitle %}Inscription{% endblock %}
-{% block headerSubtitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat?{% endblock %}
-{#BUTTON#}
-{% block buttonSuccesUrl %}{% endblock %}
-{% block buttonSucces %}Se connecter{% endblock %}
-{% block buttonInfoUrl %}{% endblock %}
-{% block buttonInfo %}Bouton info{% endblock %}
-
-{% block infoTitle %}
-    Information
-{% endblock %}
+{% block headerImage %}{% endblock %}
+{# BODY#}
+{% block infoTitle %}Services{% endblock %}
 
 {% block info %}
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos earum expedita molestias unde. A
@@ -31,8 +31,6 @@
         accusantium adipisci aspernatur cupiditate eaque esse eum explicabo, facere facilis fugiat illum impedit inventore
         ipsum itaque magnam maiores maxime molestiae mollitia nesciunt non perferendis quae quas quibusdam repellendus rerum
         similique tenetur totam ullam unde ut?</p>
-
-
 {% endblock%}
 {% block bodyTitle %}
     Inscription

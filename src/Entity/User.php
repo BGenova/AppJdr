@@ -87,9 +87,15 @@ class User implements UserInterface
      */
     private $userGames;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="owner")
+     */
+    private $games;
+
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -276,6 +282,36 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setMj($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            // set the owning side to null (unless already changed)
+            if ($game->getMj() === $this) {
+                $game->setMj(null);
+            }
+        }
         return $this;
     }
 

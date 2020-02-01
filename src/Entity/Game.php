@@ -61,7 +61,8 @@ class Game
     private $nextGameAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="games")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
@@ -217,12 +218,12 @@ class Game
         return $this;
     }
 
-    public function getOwner(): ?int
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(int $owner): self
+    public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
 

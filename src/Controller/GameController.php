@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\UserGame;
+use App\Form\AddPlayerType;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\UserGameRepository;
@@ -42,16 +43,12 @@ class GameController extends AbstractController
     public function create(Request $request)
     {
         $user = $this->getUser();
-        $userId = $user->getId();
-
         $game = new Game();
         $game->setCreatedAt(new DateTime());
-        $game->setOwner($userId);
-
+        $game->setOwner($user);
         $usergame = new UserGame();
         $usergame->setUsers($user);
         $usergame->setGames($game);
-
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
@@ -70,8 +67,6 @@ class GameController extends AbstractController
                 'id' => $game->getId(),
                 'slug' => $game->getSlug()
             ]);
-        } else {
-            $this->addFlash('danger', "La partie {$game->getTitle()} Erreur");
         }
         return $this->render('game/create.html.twig', [
             'form' => $form->createView(),
@@ -85,18 +80,34 @@ class GameController extends AbstractController
      * @param $id
      * @param GameRepository $gameRepository
      * @param UserGameRepository $userGameRepository
+     * @param Request $request
      * @return Response
      */
-    public function show($id, GameRepository $gameRepository,UserGameRepository $userGameRepository)
+    public function show($id, GameRepository $gameRepository,UserGameRepository $userGameRepository,Request $request)
     {
         $game = $gameRepository->findOneById($id);
         $usergame = $userGameRepository->findBy(array('games' => $id));
+        $newusergame = new UserGame();
+        $newusergame->setGames($game);
 
 
+        $form = $this->createForm(AddPlayerType::class, $newusergame);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($newusergame);
+            $manager->flush();
+
+            $this->addFlash('success', "<i class=\"fas fa-check\"></i> La partie <strong>{$game->getTitle()}</strong> à bien été crée");
+            return $this->redirectToRoute('game', [
+                'id' => $game->getId(),
+            ]);
+        }
         return $this->render('game/show.html.twig', [
             'game' => $game,
-            'usergames' => $usergame
+            'usergames' => $usergame,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -116,7 +127,7 @@ class GameController extends AbstractController
 
 
 
-        return $this->render('game/table.html.twig', [
+        return $this->render('game/table1.html.twig', [
             'game' => $game,
             'usergames' => $usergame
         ]);

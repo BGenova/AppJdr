@@ -5,8 +5,32 @@
     position: fixed;
     z-index: 1;
     /*top: 100px;*/
+    top: 90px;
     right: 0;
     /*overflow-x: scroll;*/
+    transition: 1.2s;
+}
+
+
+.sidenavChat {
+    height: 500px;
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    bottom: 105px;
+    right: 0;
+    overflow-x: hidden;
+    transition: 1.2s;
+}
+
+.sidenavDice {
+    height: 500px;
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    bottom: 105px;
+    left: 0;
+    overflow-x: hidden;
     transition: 1.2s;
 }
 
@@ -37,12 +61,26 @@
 /*    margin-left: 50px;*/
 /*}*/
 
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
-}
+/*#main {*/
+/*    transition: margin-left .5s;*/
+/*    padding: 16px;*/
+/*}*/
 
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-}
+/*@media screen and (max-height: 450px) {*/
+/*    .sidenav {padding-top: 15px;}*/
+/*    .sidenav a {font-size: 18px;}*/
+/*}*/
+
+
+/*body {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    !*overflow: hidden;*!*/
+
+/*    background-image: url("https://i.pinimg.com/originals/06/df/df/06dfdfb4440be8d4c8f0c1d5615eff03.jpg");*/
+/*    !*background-size: cover;*!*/
+/*    background-size: 100% 100%;*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position-y: 90px;*/
+/*}*/

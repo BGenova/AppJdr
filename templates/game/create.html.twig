@@ -1,14 +1,28 @@
 {% extends 'base.html.twig' %}
+{# HEAD #}
+{% block title %}Créez vos parties{% endblock %}
+{# HEADER#}
+{% block headerTitle %}Créer vos parties{% endblock %}
+{% block headerParagraphTitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores cum fugiat quo ut voluptates voluptatum.{% endblock %}
+{% block headerSubtitle %}Bienvenue{% endblock %}
+{% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
+{% block headerBadge %}{% endblock %}
+{% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+{% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
+{% block headerImage %}{% endblock %}
+{# INFO#}
+{% block infoTitle %}Info{% endblock %}
+{% block info %}<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium asperiores deleniti, doloribus fugit illo
+    libero, nemo nisi officia suscipit unde voluptates? Deserunt, fuga, tenetur!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium asperiores deleniti, doloribus fugit illo
+        libero, nemo nisi officia suscipit unde voluptates? Deserunt, fuga, tenetur!</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium asperiores deleniti, doloribus fugit illo
+        libero, nemo nisi officia suscipit unde voluptates? Deserunt, fuga, tenetur!</p>
+{% endblock %}
 
-{% block title %}Création de partie{% endblock %}
-{% block headerTitle %}Création de parties{% endblock %}
-{% block headerSubtitle %}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat?{% endblock %}
-{% block buttonSuccesUrl %}{% endblock %}
-{% block buttonSucces %}Se connecter{% endblock %}
-{% block buttonInfoUrl %}{% endblock %}
-{% block buttonInfo %}Bouton info{% endblock %}
 
 
+{% block bodyTitle %}Création de partie{% endblock %}
 {% form_theme form _self %}
 {% block body %}
     <div class="col-12 mx-auto border border-primary p-3 shadow">
@@ -66,6 +80,7 @@
                 $(target).remove()
             });
         }
+
         handleDeleteButtons();
     </script>
 {% endblock %}

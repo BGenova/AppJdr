@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {# HEAD #}
 {% block title %}{{ game.title }}{% endblock %}
 {# HEADER#}
@@ -13,45 +12,42 @@
     <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
         .title }}</button>
 {% endblock %}
-{% block buttonHeader %}Créer une partie{% endblock %}
 {% block headerImage %}{{ game.coverImage }}{% endblock %}
+{% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+{% block buttonLinkHeader %}{{ path('table', {'id': game.id}) }}{% endblock %}
 
-{#{% set mj = game.mj %}#}
 {% block infoTitle %}Table{% endblock %}
 {% block info %}
-    {#    {% set mj = game.mj %}#}
-    <div class="col">
-        {#        <a href="{{ path('user_show', {'slug': mj.slug}) }}"><i class="h3 fa fa-user"></i></a>#}
-        {#        <a href="{{ path('user_show', {'slug': mj.slug}) }}">{{ mj.fullName }}</a>#}
-        {#        {{ mj.shortDescription | raw }}#}
-        {#        <span class="badge badge-info text-uppercase">{{ mj.games | length }} Partie crée</span>#}
-                <h4 class="text-center">Maître du jeu</h4>
-        {% for user in usergames %}
-        {% if loop.first %}{% endif %}
-        <div class="card p-3 text-center bg-secondary col-{% if loop.first %}12{% endif %}4">
-                <i class=" h1 fas fa-user"></i>
-                {{ user.users.lastName }}
-                {{ user.users.firstName }}
-        </div>
-        {% if loop.first %}
-        <hr>
-        <h4 class="text-center">PJ</h4>
-        <hr>
-        <div class="row justify-content-around col-12 mx-auto">{% endif %}
+    <div class="col border border-secondary shadow-lg p-3">
+        <h4 class="text-center">Maître du jeu</h4>
+        <p class="text-center"> <i class=" h1 fas fa-user"></i>
+            <br>{{ game.owner.nickName }}
+            <br>{{ game.owner.games | length }}</p>
+        <hr class="bg-secondary">
+        {% if game.owner is same as (app.user) %}
+            <a href="#" class="col-12 btn btn-primary btn-sm small" data-toggle="modal" data-target="#test"><i class="fas
+            fa-user-plus"></i> Ajouter Ajouter un joueur(se)</a>
+            <hr class="bg-secondary">
 
-            {% endfor %}
-        </div>
+        {% endif %}
+
+            <div class="row bg-primary p-1">
+                <h5 class="col-4 pt-0">PJ</h5>
+            </div>
+            <div class="row justify-content-between col-12 mx-auto">
+                {% for user in usergames %}
+                    {% if app.user == user.users() %}{% endif %}
+                    <div class="card p-2 text-center bg-secondary col-6 border border-primary shadow-lg {% if app.user == user.users() %}d-none{% endif %}">
+
+                        <i class=" h1 fas fa-user"></i>
+                        <h5>{{ user.users.nickName }}</h5>
+                    </div>
+                {% endfor %}
+            </div>
     </div>
 
 {% endblock %}
-{% block bodyTitle %}
-    {{ game.title }}
-
-
-    {#    <a href="{{ path('showCategory', {'slug': game.gamebook.category.slug}) }}" class="btn btn-info m-1 float-right">{{ game.gamebook.category.title }}</a>#}
-    {#    <a href="{{ path('showGamerule', {'slug': game.gamebook.slug}) }}"#}
-    {#       class="btn btn-info m-1 float-right">{{ game.gamebook.title }}</a>#}
-{% endblock %}
+{% block bodyTitle %}{{ game.title }}{% endblock %}
 {% block body %}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -86,4 +82,31 @@
         <hr>
         <p class="text-decoration-none">{{ game.longDescription | raw }}</p>
     </div>
+
+
+
+
+
+        <div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="signLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="signLabel"><em class="fa fa-user-plus">Titre</em></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo MOD_CLOSE ?>">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-secondary">
+                        <div class="container">
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button type="submit" class="btn btn-primary">encoyer</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 {% endblock %}

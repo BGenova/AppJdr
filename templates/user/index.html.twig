@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.fullName }}{% endblock %}
+ {# HEADER#}
+    {% block headerTitle %}
+        {% if app.user %}
+            Mon compte
+        {% else %}
+            Profil de {{ user.nickName }}
+        {% endif %}
+    {% endblock %}
+    {% block headerParagraphTitle %}{{ user.shortDescription }}{% endblock %}
+    {% block headerSubtitle %}AppJdr{% endblock %}
+    {% block headerParagraph %}{{ user.shortDescription }}{% endblock %}
+    {% block headerBadge %}{% endblock %}
+    {% block buttonHeader %}{% endblock %}
+{% block infoTitle %}
+    {% if app.user %}
+        {{ app.user.fullName }}
+        {% else %}
+            {{ user.nickName }}
+    {% endif %}
+{% endblock %}
+
+{% block info %}
+    {% if user is same as (app.user) %}
+        <a href="{{ path('account_profile') }}" class="btn btn-primary">Modifier mon profil</a>
+        <a href="{{ path('account_password') }}" class="btn btn-primary">Modifier mon mot de passe</a>
+
+    {% endif %}
+    <p>Membre depuis le : {{ user.createdAt | date ('d-m-Y ')}} <span class="badge badge-info text-uppercase col-3 float-right">{{ user.games | length }} Partie crée</span></p>
+    <hr class="bg-secondary">
+    <h5>Description</h5>
+    {{ user.longDescription | raw }}
+{% endblock %}
+{% block bodyTitle %}
+    Vos parties
+{% endblock %}
+{% block body %}
+
+    {% if user.games | length > 0 %}
+    {% for game in user.games %}
+                <div class="card mx-auto bg-secondary shadow-lg p-0 m-2">
+                    <div class="card-header bg-primary">
+                        <span class="badge badge-info small m-1 float-right">{{ game.gamerule.category.title }}</span>
+                        <span class="badge badge-info small m-1 float-right">{{ game.gamerule.title }}</span>
+                        <h2><span class="text-danger">{{ game.gamerule.icon | raw }}</span> {{ game.title }}</h2>
+                        <img src="" alt="">
+                    </div>
+                    <div class="card-body bg-secondary">
+                        <p class="card-text">{{game.shortDescription}}</p>
+                        <a href="{{ path('game', {'slug': game.slug,'id': game.id}) }}" class="btn btn-success">Accéder au salon</a>
+                        <a href="#" class="btn btn-info">Faire autre chose</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Crée le : {{ game.createdAt | date('d-m-Y ') }}
+                    </div>
+                </div>
+    {% endfor %}
+    {% else %}
+        <div class="alert alert-warning">
+            <p>
+                <strong>{{ user.fullName }}</strong> n'as pas d'annonces !
+            </p>
+        </div>
+    {% endif %}
+
+{% endblock %}

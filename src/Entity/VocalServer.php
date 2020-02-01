@@ -60,6 +60,12 @@ class VocalServer
         return $this;
     }
 
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getLink(): ?string
     {
         return $this->link;

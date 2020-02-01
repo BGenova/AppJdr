@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Game;
 use App\Entity\GameBook;
+use App\Entity\GameNote;
 use App\Entity\GameRule;
 use App\Entity\GameSlide;
 use App\Entity\User;
@@ -87,13 +88,14 @@ class AppFixtures extends Fixture
                         ->setCreatedAt(new DateTime())
                         ->setNextGameAt(new DateTime())
                         ->setGameBook($gamerule)
-                        ->setOwner($userid);
+                        ->setOwner($user);
                     $manager->persist($game);
                     $manager->flush();
 
 
                         $gameuser = new UserGame();
                         $gameuser->setUsers($user);
+
                     for ($i = 1; $i <= 4; $i++) {
                         $gameuser = new UserGame();
                         $user = $users[mt_rand(0, count($users) - 1)];
@@ -110,6 +112,14 @@ class AppFixtures extends Fixture
                             ->setCaption($faker->sentence())
                             ->setGame($game);
                         $manager->persist($slide);
+                    }
+                    for ($n = 1; $n <= 4; $n++) {
+                        $note = new GameNote();
+
+                        $note->setTitle($faker->sentence())
+                            ->setContent($faker->sentence())
+                            ->setGame($game);
+                        $manager->persist($note);
                     }
                 }
                 $manager->persist($gamerule);
