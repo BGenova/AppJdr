@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ gamerule.title }}{% endblock %}
+{% block title %}{{ gamebook.title }}{% endblock %}
 
 {# HEADER#}
-        {% block headerTitle %}{{ gamerule.title }}{% endblock %}
+        {% block headerTitle %}{{ gamebook.title }}{% endblock %}
         {% block headerParagraphTitle %}{% endblock %}
         {% block headerSubtitle %}AppJdr{% endblock %}
         {% block headerParagraph %}<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, quaerat? adipisicing elit.
@@ -13,7 +13,7 @@
         {% block buttonHeader %}{% endblock %}
 
 {% block infoTitle %}
-    {{ gamerule.title }}
+    {{ gamebook.title }}
 {% endblock %}
 
 {% block info %}
@@ -29,12 +29,12 @@
     {% block body %}
 
                 <div class="row col-12 justify-content-around mx-auto">
-                    {% for game in gamerule.game %}
+                    {% for game in gamebook.game %}
 
                         <div class="card col-12 col-md-6 bg-secondary shadow-lg p-0">
                             <div class="card-header bg-primary">
-                                <span class="badge badge-info small m-1 float-right">{{ game.gamerule.title }}</span>
-                                <h2><span class="text-danger">{{ game.gamerule.icon | raw }}</span> {{ game.title }}</h2>
+                                <span class="badge badge-info m-1 float-right">{{ game.gamebook.category.title }}</span>
+                                <h2><span class="text-danger">{{ game.gamebook.icon | raw }}</span> {{ game.title }}</h2>
                                 <img src="" alt="">
                             </div>
                             <div class="card-body bg-secondary">

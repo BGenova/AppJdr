@@ -72,7 +72,7 @@ class Game
     private $userGames;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\GameSlide", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="App\Entity\GameSlide", mappedBy="game", cascade={"persist"})
      */
     private $gameSlides;
 

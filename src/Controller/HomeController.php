@@ -16,7 +16,7 @@ class HomeController extends AbstractController
      */
     public function index(GameRepository $gameRepository)
     {
-        $games = $gameRepository->findBy(array(),array('createdAt' => 'DESC'),6);
+        $games = $gameRepository->findBy(array(),array('createdAt' => 'DESC'),4);
         return $this->render('home/index.html.twig', [
             'games' => $games,
         ]);

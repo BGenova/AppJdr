@@ -7,44 +7,57 @@
 {% block headerSubtitle %}AppJdr{% endblock %}
 {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
 {% block headerBadge %}
-    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.category.icon | raw }} {{ game
-        .gamebook.category.title }}</button>
-    <button class="btn btn-primary mr-1 btn-sm small float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook
-        .title }}</button>
+    <span class="badge badge-info m-1 float-right">{{ game.gamebook.category.title }}</span>
+    <span class="badge badge-info m-1 float-right">{{ game.gamebook.title }}</span>
 {% endblock %}
 {% block headerImage %}{{ game.coverImage }}{% endblock %}
-{% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+{% block buttonHeader %}<i class="fas fa-user-plus"></i> Rejoingnez la table !{% endblock %}
 {% block buttonLinkHeader %}{{ path('table', {'id': game.id}) }}{% endblock %}
 
 {% block infoTitle %}Table{% endblock %}
 {% block info %}
-    <div class="col border border-secondary shadow-lg p-3">
-        <h4 class="text-center">Maître du jeu</h4>
-        <p class="text-center"> <i class=" h1 fas fa-user"></i>
-            <br>{{ game.owner.nickName }}
-            <br>{{ game.owner.games | length }}</p>
+    <div class="col card bg-secondary mb-1">
+        <hr>
+        <h4 class="text-center">Info</h4>
+        <hr>
+        <h5>Prochaine partie : {{ game.nextGameAt | date }}</h5>
+        <h5>Serveur Vocal : {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</h5>
+    </div>
+    <div class="col border border-secondary card bg-primary  border shadow-lg p-3 mb-1">
         <hr class="bg-secondary">
+        <h4 class="text-center">Maître du jeu</h4>
+        <hr class="bg-secondary">
+        <p class="text-center"><i class=" h1 fas fa-user"></i>
+            <br>{{ game.owner.nickName }}
+        <p>Membre depuis le : {{ game.owner.createdAt | date ('d-m-Y ') }} <span
+                    class="badge badge-info text-uppercase float-right">{{ game.owner.games | length }} Partie crée</span></p>
         {% if game.owner is same as (app.user) %}
             <a href="#" class="col-12 btn btn-primary btn-sm small" data-toggle="modal" data-target="#test"><i class="fas
-            fa-user-plus"></i> Ajouter Ajouter un joueur(se)</a>
+            fa-user-plus"></i> Ajouter un joueur(se)</a>
             <hr class="bg-secondary">
 
+            <a href="{{ path('edit', {'id': game.id,'slug': game.slug }) }}" class="col-12 btn btn-primary btn-sm small"><i
+                        class="fas
+            fa-user-plus"></i> Modifier la partie</a>
         {% endif %}
-
-            <div class="row bg-primary p-1">
-                <h5 class="col-4 pt-0">PJ</h5>
-            </div>
-            <div class="row justify-content-between col-12 mx-auto">
-                {% for user in usergames %}
-                    {% if app.user == user.users() %}{% endif %}
-                    <div class="card p-2 text-center bg-secondary col-6 border border-primary shadow-lg {% if app.user == user.users() %}d-none{% endif %}">
-
-                        <i class=" h1 fas fa-user"></i>
-                        <h5>{{ user.users.nickName }}</h5>
-                    </div>
-                {% endfor %}
-            </div>
     </div>
+        <div class="col border border-primary card bg-secondary border shadow-lg p-3">
+        <hr>
+        <h5 class="text-center">Joueurs(euses)</h5>
+        <hr>
+        <div class="row justify-content-between col-12 mx-auto">
+            {% for user in usergames %}
+                <div class="card p-2 text-center bg-secondary col-6 border border-primary shadow-lg {% if app.user == user.users() %}d-none{% endif %}">
+                    {% if game.owner is same as (app.user) %}
+                        <p class="text-right"><a href="" class="btn btn-primary btn-sm col-4"><i class="fas fa-user-minus"></i></a></p>
+                    {% endif %}
+                    <p><i class=" h1 fas fa-user"></i></p>
+                    <h6>{{ user.users.nickName }}</h6>
+                    <h6>{{ user.users.createdAt | date }}</h6>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
 
 {% endblock %}
 {% block bodyTitle %}{{ game.title }}{% endblock %}
@@ -76,11 +89,14 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <div class="col-12 mx-auto border border-primary mt-2 bg-primary p-3">
+    <div class="col-12">
         <hr>
-        <h4 class="col-4 mx-auto text-center">Description</h4>
+        <h4 class="text-center">Description</h4>
         <hr>
+        <div class="col card bg-primary">
+
         <p class="text-decoration-none">{{ game.longDescription | raw }}</p>
+        </div>
     </div>
 
 

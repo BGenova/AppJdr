@@ -1,12 +1,16 @@
 {% extends "basetable.html.twig" %}
 
     {% block body %}
-<body background="{{ game.gameImages[0].url}}" style="background-size: 100% 100%;background-repeat: no-repeat;background-position-y: 90px;"
+<body background="{{ game.gameBattleMaps[0].url}}" style="background-size: 100% 100%;background-repeat: no-repeat;background-position-y:
+90px;"
       class="bg-secondary
 container-fluid text-light p-0">
 {% include "/partials/navbar.html.twig" %}
 
-<div class="border" style="border: dashed;" ondrop="drop(event)" ondragover="allowDrop(event)" >
+<select id="tool">
+    <option value="brush">Brush</option>
+    <option value="eraser">Eraser</option>
+</select>
 
 
             <div id="container"></div>
@@ -247,121 +251,5 @@ container-fluid text-light p-0">
         {#                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, nemo.</p>#}
         {#            </div>#}
         {#        </div>#}
-</div>
         {% include "/partials/tablefooter.html.twig" %}
-    {% endblock %}
-
-    {% block javascripts %}
-
-        <script>
-            function allowDrop(ev) {
-                ev.preventDefault();
-            }
-
-            function drag(ev) {
-                ev.dataTransfer.setData("text", ev.target.id);
-            }
-
-            function drop(ev) {
-                ev.preventDefault();
-                var data = ev.dataTransfer.getData("text");
-                ev.target.appendChild(document.getElementById(data));
-            }
-        </script>
-
-        <script>
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-            var shadowOffset = 20;
-            var tween = null;
-            var blockSnapSize = 40;
-
-
-            var shadowRectangle = new Konva.Rect({
-                x: 0,
-                y: 0,
-                width: blockSnapSize * 1,
-                height: blockSnapSize * 1,
-                fillPatternImage: 'public/image/creation.png',
-                fill: '#FF7B17',
-                opacity: 0.6,
-                stroke: '#CF6412',
-                strokeWidth: 3,
-                dash: [20, 2]
-            });
-
-            function newRectangle(x, y, layer, stage) {
-                let rectangle = new Konva.Rect({
-                    x: x,
-                    y: y,
-                    width: blockSnapSize * 1,
-                    height: blockSnapSize * 1,
-                    fill: '#fff',
-                    stroke: '#ddd',
-                    strokeWidth: 1,
-                    shadowColor: 'black',
-                    shadowBlur: 2,
-                    shadowOffset: {x: 1, y: 1},
-                    shadowOpacity: 0.4,
-                    draggable: true
-                });
-                rectangle.on('dragstart', (e) => {
-                    shadowRectangle.show();
-                    shadowRectangle.moveToTop();
-                    rectangle.moveToTop();
-                });
-                rectangle.on('dragend', (e) => {
-                    rectangle.position({
-                        x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
-                        y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
-                    });
-                    stage.batchDraw();
-                    shadowRectangle.hide();
-                });
-                rectangle.on('dragmove', (e) => {
-                    shadowRectangle.position({
-                        x: Math.round(rectangle.x() / blockSnapSize) * blockSnapSize,
-                        y: Math.round(rectangle.y() / blockSnapSize) * blockSnapSize
-                    });
-                    stage.batchDraw();
-                });
-                layer.add(rectangle);
-            }
-
-            var stage = new Konva.Stage({
-                container: 'container',
-                width: width,
-                height: height
-            });
-
-            var gridLayer = new Konva.Layer();
-            var padding = blockSnapSize;
-            console.log(width, padding, width / padding);
-            for (var i = 0; i < width / padding; i++) {
-                gridLayer.add(new Konva.Line({
-                    points: [Math.round(i * padding) + 0.5, 0, Math.round(i * padding) + 0.5, height],
-                    stroke: '#fff',
-                    strokeWidth: 0.5,
-                }));
-            }
-
-            gridLayer.add(new Konva.Line({points: [0, 0, 10, 10]}));
-            for (var j = 0; j < height / padding; j++) {
-                gridLayer.add(new Konva.Line({
-                    points: [0, Math.round(j * padding), width, Math.round(j * padding)],
-                    stroke: '#fff',
-                    strokeWidth: 0.5,
-                }));
-            }
-
-            var layer = new Konva.Layer();
-            shadowRectangle.hide();
-            layer.add(shadowRectangle);
-            newRectangle(blockSnapSize * 1, blockSnapSize * 1, layer, stage);
-            newRectangle(blockSnapSize * 1, blockSnapSize * 1, layer, stage);
-
-            stage.add(gridLayer);
-            stage.add(layer);
-
-        </script>
     {% endblock %}

@@ -9,6 +9,7 @@ use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\UserGameRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,89 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
+
+    /**
+     * @Route("/edit/game/{id}/{slug}", name="edit")
+     * @param Game $game
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function edit(Game $game, Request $request)
+    {
+        // Create an ArrayCollection of the current objects in the Game database
+        $originalSlides = new ArrayCollection();
+        foreach ($game->getGameSlides() as $gameSlides) {
+            $originalSlides->add($gameSlides);
+        }
+        $originalMap = new ArrayCollection();
+        foreach ($game->getGameBattleMaps() as $gameBattleMaps) {
+            $originalMap->add($gameBattleMaps);
+        }
+        $originalImages = new ArrayCollection();
+        foreach ($game->getGameSlides() as $gameImages) {
+            $originalImages->add($gameImages);
+        }
+
+        $form = $this->createForm(GameType::class, $game);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game->setUpdatedAt(new DateTime());
+            $manager = $this->getDoctrine()->getManager();
+
+            foreach ($originalSlides as $gameSlides) {
+                if (false === $game->getGameSlides()->contains($gameSlides)) {
+                    $gameSlides->getGame()->removeGameSlide($gameSlides);
+                    $manager->persist($gameSlides);
+                    $manager->remove($gameSlides);
+                }
+            }
+            foreach ($game->getGameSlides() as $gameSlides) {
+                $gameSlides->setGame($game);
+                $manager->persist($gameSlides);
+            }
+
+            foreach ($originalMap as $gameBattleMaps) {
+                if (false === $game->getGameBattleMaps()->contains($gameBattleMaps)) {
+                    $gameBattleMaps->getGame()->removeGameBattleMap($gameBattleMaps);
+                    $manager->persist($gameBattleMaps);
+                    $manager->remove($gameBattleMaps);
+                }
+            }
+            foreach ($game->getGameBattleMaps() as $gameBattleMaps) {
+                $gameBattleMaps->setGame($game);
+                $manager->persist($gameBattleMaps);
+            }
+
+            foreach ($originalImages as $gameImages) {
+                if (false === $game->getGameImages()->contains($gameImages)) {
+                    $gameImages->getGame()->removeGameImage($gameImages);
+                    $manager->persist($gameImages);
+                    $manager->remove($gameImages);
+                }
+            }
+            foreach ($game->getGameImages() as $gameImages) {
+                $gameImages->setGame($game);
+                $manager->persist($gameImages);
+            }
+            $manager->persist($game);
+            $manager->flush();
+
+            $this->addFlash('success', "<i class=\"fas fa-check\"></i> La partie <strong>{$game->getTitle()}</strong> à bien été modifier");
+            return $this->redirectToRoute('game', [
+                'id' => $game->getId(),
+                'slug' => $game->getSlug()
+            ]);
+        }
+        return $this->render('game/edit.html.twig', [
+            'form' => $form->createView(),
+            'id' => $game->getId(),
+            'slug' => $game->getSlug(),
+        ]);
+    }
+
+
     /**
      * Display all game
      *
@@ -84,7 +168,7 @@ class GameController extends AbstractController
     /**
      * Display game page
      *
-     * @Route("/games/{id}", name="game")
+     * @Route("/game/{id}/{slug}", name="game")
      * @param $id
      * @param GameRepository $gameRepository
      * @param UserGameRepository $userGameRepository
@@ -110,6 +194,7 @@ class GameController extends AbstractController
             $this->addFlash('success', "<i class=\"fas fa-check\"></i> La partie <strong>{$game->getTitle()}</strong> à bien été crée");
             return $this->redirectToRoute('game', [
                 'id' => $game->getId(),
+                'slug' => $game->getSlug(),
             ]);
         }
         return $this->render('game/show.html.twig', [
@@ -118,7 +203,6 @@ class GameController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * Display table page
      *
@@ -132,8 +216,6 @@ class GameController extends AbstractController
     {
         $game = $gameRepository->findOneById($id);
         $usergame = $userGameRepository->findBy(array('games' => $id));
-
-
 
         return $this->render('game/table1.html.twig', [
             'game' => $game,

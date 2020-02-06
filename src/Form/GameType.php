@@ -23,21 +23,12 @@ class GameType extends ApplicationType
             ->add('title', TextType::class, $this->setConfiguration('Titre de votre partie', 'Donnez un titre à votre partie', 'h3', 'h2', true))
             ->add('shortDescription', TextType::class, $this->setConfiguration('Synopsis', 'Descrivez en quelques lignes le contexte de votre partie.', 'h3', 'h2', true))
             ->add('longDescription', CKEditorType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h3', 'h2', true))
-//            ->add('gameBook', null, [
-//                'required' => true,
-//                'label' => 'Jeu',
-//                'label_attr' => [
-//                    'class' => 'h3'
-//                ],
-//            ])
             ->add('gameBook', null, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
             ->add('vocalServer', null, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
-
             ->add('coverImage', UrlType::class, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
             ->add('gameSlides', CollectionType::class,
                 [
                     'entry_type' => GameSlideType::class,
-                    'label' => "Diaporama",
                     'allow_add' => true,
                     'allow_delete' => true,
                 ]
@@ -45,7 +36,6 @@ class GameType extends ApplicationType
             ->add('gameBattleMaps', CollectionType::class,
                 [
                     'entry_type' => GameBattleMapType::class,
-                    'label' => "Diaporama",
                     'allow_add' => true,
                     'allow_delete' => true,
                 ]
@@ -53,7 +43,6 @@ class GameType extends ApplicationType
             ->add('gameImages', CollectionType::class,
                 [
                     'entry_type' => GameImageType::class,
-                    'label' => "Diaporama",
                     'allow_add' => true,
                     'allow_delete' => true,
                 ]

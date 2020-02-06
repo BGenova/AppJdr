@@ -14,7 +14,7 @@ class GameBookController extends AbstractController
     /**
      * Display one gamebook
      *
-     * @Route("/livre/{slug}", name="showGamerule")
+     * @Route("/livre/{slug}", name="showGamebook")
      * @param $slug
      * @param GameBookRepository $gameBookRepository
      * @return Response
@@ -23,7 +23,7 @@ class GameBookController extends AbstractController
     {
         $gamebook = $gameBookRepository->findOneBySlug($slug);
 
-        return $this->render('gamerule/show.html.twig', [
+        return $this->render('gamebook/show.html.twig', [
             'gamebook' => $gamebook,
         ]);
     }

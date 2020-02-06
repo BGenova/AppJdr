@@ -144,6 +144,12 @@
             });
         }
 
+        function updateCounter() {
+            const count = +$('#game_gameSlides div.form-group').length;
+
+            $('#widgets-counter').val(count);
+        }
+
         handleDeleteButtons();
     </script>
     <script>
@@ -183,3 +189,4 @@
         handleDeleteButtons();
     </script>
 {% endblock %}
+

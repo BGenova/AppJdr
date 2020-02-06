@@ -1,0 +1,226 @@
+{% extends "basetable.html.twig" %}
+
+    {% block body %}
+        <body>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: red;
+            }
+        </style>
+        <select id="tool">
+            <option value="brush">Brush</option>
+            <option value="eraser">Eraser</option>
+        </select>
+        <div id="container"></div>
+
+    {% endblock %}
+
+{% block javascripts %}
+
+        <script>
+            var width = window.innerWidth;
+            var height = window.innerHeight - 25;
+
+            // first we need Konva core things: stage and layer
+            var stage = new Konva.Stage({
+                container: 'container',
+                width: width,
+                height: height
+            });
+
+            var layer = new Konva.Layer();
+            stage.add(layer);
+
+            var isPaint = false;
+            var mode = 'brush';
+            var lastLine;
+
+            stage.on('mousedown touchstart', function(e) {
+                isPaint = true;
+                var pos = stage.getPointerPosition();
+                lastLine = new Konva.Line({
+                    stroke: '#df4b26',
+                    strokeWidth: 5,
+                    globalCompositeOperation:
+                        mode === 'brush' ? 'source-over' : 'destination-out',
+                    points: [pos.x, pos.y]
+                });
+                layer.add(lastLine);
+            });
+
+            stage.on('mouseup touchend', function() {
+                isPaint = false;
+            });
+
+            // and core function - drawing
+            stage.on('mousemove touchmove', function() {
+                if (!isPaint) {
+                    return;
+                }
+
+                const pos = stage.getPointerPosition();
+                var newPoints = lastLine.points().concat([pos.x, pos.y]);
+                lastLine.points(newPoints);
+                layer.batchDraw();
+            });
+
+            var select = document.getElementById('tool');
+            select.addEventListener('change', function() {
+                mode = select.value;
+            });
+        </script>
+        </body>
+    </html>
+    Free drawing manually
+    The first approach has limitation if we want to use some low-level 2d canvas API directly. If you need advanced access to the canvas it is better to use Native Context Access
+
+    We will create special offscreen canvas where we will add all drawings.
+    With native access to the canvas we can use low-level 2d context functions.
+    To display the canvas on the stage we will use Konva.Image.
+
+
+    Show source code!
+    Canvas Scrolling Largeview raw
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script src="https://unpkg.com/konva@4.1.3/konva.min.js"></script>
+        <meta charset="utf-8" />
+        <title>Konva Free Drawing Demo</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #f0f0f0;
+            }
+        </style>
+    </head>
+
+    <body>
+    Tool:
+    <select id="tool">
+        <option value="brush">Brush</option>
+        <option value="eraser">Eraser</option>
+    </select>
+    <div id="container"></div>
+    <script>
+        var width = window.innerWidth;
+        var height = window.innerHeight - 25;
+        var shadowOffset = 20;
+        var tween = null;
+        var blockSnapSize = 40;
+
+        // first we need Konva core things: stage and layer
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height
+        });
+
+        // Création de la grille
+
+        var gridLayer = new Konva.Layer();
+        var padding = blockSnapSize;
+
+        console.log(width, padding, width / padding);
+        for (var i = 0; i < width / padding; i++) {
+            gridLayer.add(new Konva.Line({
+                points: [Math.round(i * padding) + 0.5, 0, Math.round(i * padding) + 0.5, height],
+                stroke: 'red',
+                strokeWidth: 1,
+            }));
+        }
+
+        gridLayer.add(new Konva.Line({points: [0, 0, 10, 10]}));
+        for (var j = 0; j < height / padding; j++) {
+            gridLayer.add(new Konva.Line({
+                points: [0, Math.round(j * padding), width, Math.round(j * padding)],
+                stroke: 'red',
+                strokeWidth: 1,
+            }));
+        }
+
+        var layer = new Konva.Layer();
+        stage.add(layer);
+
+        // then we are going to draw into special canvas element
+        var canvas = document.createElement('canvas');
+        canvas.width = stage.width();
+        canvas.height = stage.height();
+
+        // created canvas we can add to layer as "Konva.Image" element
+        var image = new Konva.Image({
+            image: canvas,
+            x: 0,
+            y: 0
+        });
+        stage.add(gridLayer);
+        layer.add(image);
+        stage.draw();
+
+        // Good. Now we need to get access to context element
+        var context = canvas.getContext('2d');
+        context.strokeStyle = 'green';
+        context.lineJoin = 'round';
+        context.lineWidth = 10;
+
+        var isPaint = false;
+        var lastPointerPosition;
+        var mode = 'brush';
+
+        // now we need to bind some events
+        // we need to start drawing on mousedown
+        // and stop drawing on mouseup
+        image.on('mousedown touchstart', function() {
+            isPaint = true;
+            lastPointerPosition = stage.getPointerPosition();
+        });
+
+        // will it be better to listen move/end events on the window?
+
+        stage.on('mouseup touchend', function() {
+            isPaint = false;
+        });
+
+        // and core function - drawing
+        stage.on('mousemove touchmove', function() {
+            if (!isPaint) {
+                return;
+            }
+
+            if (mode === 'brush') {
+                context.globalCompositeOperation = 'source-over';
+            }
+            if (mode === 'eraser') {
+                context.globalCompositeOperation = 'destination-out';
+            }
+            context.beginPath();
+
+            var localPos = {
+                x: lastPointerPosition.x - image.x(),
+                y: lastPointerPosition.y - image.y()
+            };
+            context.moveTo(localPos.x, localPos.y);
+            var pos = stage.getPointerPosition();
+            localPos = {
+                x: pos.x - image.x(),
+                y: pos.y - image.y()
+            };
+            context.lineTo(localPos.x, localPos.y);
+            context.closePath();
+            context.stroke();
+
+            lastPointerPosition = pos;
+            layer.batchDraw();
+        });
+
+        var select = document.getElementById('tool');
+        select.addEventListener('change', function() {
+            mode = select.value;
+        });
+    </script>
+{% endblock %}

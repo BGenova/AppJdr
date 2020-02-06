@@ -42,9 +42,9 @@
     {% for game in user.games %}
                 <div class="card mx-auto bg-secondary shadow-lg p-0 m-2">
                     <div class="card-header bg-primary">
-                        <span class="badge badge-info small m-1 float-right">{{ game.gamerule.category.title }}</span>
-                        <span class="badge badge-info small m-1 float-right">{{ game.gamerule.title }}</span>
-                        <h2><span class="text-danger">{{ game.gamerule.icon | raw }}</span> {{ game.title }}</h2>
+                        <span class="badge badge-info small m-1 float-right">{{ game.gamebook.category.title }}</span>
+                        <span class="badge badge-info small m-1 float-right">{{ game.gamebook.title }}</span>
+                        <h2><span class="text-danger">{{ game.gamebook.icon | raw }}</span> {{ game.title }}</h2>
                         <img src="" alt="">
                     </div>
                     <div class="card-body bg-secondary">

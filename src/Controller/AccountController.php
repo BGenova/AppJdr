@@ -102,8 +102,7 @@ class AccountController extends AbstractController
     {
         // Update User
         $user = $this->getUser();
-        $user->setUpdatedAt(new DateTime());
-
+//        dd($user);
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
