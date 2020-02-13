@@ -62,7 +62,6 @@ class GameController extends AbstractController
             foreach ($originalSlides as $gameSlides) {
                 if (false === $game->getGameSlides()->contains($gameSlides)) {
                     $gameSlides->getGame()->removeGameSlide($gameSlides);
-                    $manager->persist($gameSlides);
                     $manager->remove($gameSlides);
                 }
             }
@@ -75,7 +74,6 @@ class GameController extends AbstractController
             foreach ($originalMap as $gameBattleMaps) {
                 if (false === $game->getGameBattleMaps()->contains($gameBattleMaps)) {
                     $gameBattleMaps->getGame()->removeGameBattleMap($gameBattleMaps);
-                    $manager->persist($gameBattleMaps);
                     $manager->remove($gameBattleMaps);
                 }
             }
@@ -86,9 +84,7 @@ class GameController extends AbstractController
 
             foreach ($originalImages as $gameImages) {
                 if (false === $game->getGameImages()->contains($gameImages)) {
-//                    dd($gameImages);
                     $gameImages->getGame()->removeGameImage($gameImages);
-                    $manager->persist($gameImages);
                     $manager->remove($gameImages);
                 }
             }
@@ -246,6 +242,23 @@ class GameController extends AbstractController
     public function delete(Game $game)
     {
         $manager = $this->getDoctrine()->getManager();
+
+        foreach ($game->getGameNotes() as $gameNote) {
+            $gameNote->getGame()->removeGameNote($gameNote);
+            $manager->persist($gameNote);
+        }
+        foreach ($game->getGameSlides() as $gameSlide) {
+            $gameSlide->getGame()->removeGameSlide($gameSlide);
+            $manager->persist($gameSlide);
+        }
+        foreach ($game->getGameBattleMaps() as $gameBattleMap) {
+            $gameBattleMap->getGame()->removeGameBattleMap($gameBattleMap);
+            $manager->persist($gameBattleMap);
+        }
+        foreach ($game->getGameImages() as $gameImage) {
+            $gameImage->getGame()->removeGameImage($gameImage);
+            $manager->persist($gameImage);
+        }
         $manager->remove($game);
         $manager->flush();
 
