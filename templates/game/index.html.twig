@@ -1,17 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {# HEAD #}
-{% block title %}Accueil{% endblock %}
+{% block title %}Trouver une partie{% endblock %}
 {# HEADER#}
-    {% block headerTitle %}Bienvenue{% endblock %}
+    {% block headerTitle %}Trouver une partie{% endblock %}
     {% block headerParagraphTitle %}{% endblock %}
-    {% block headerSubtitle %}AppJdr{% endblock %}
+    {% block headerSubtitle %}Lorem ipsum dt. Incidunt{% endblock %}
     {% block headerParagraph %}Lorem ipsum dt. Incidunt, quaerat? adipisicing elit. Incidunt, quaerat?{% endblock %}
     {% block headerBadge %}{% endblock %}
-    {% block buttonHeader %}{% endblock %}
     {% block headerImage %}{% endblock %}
+    {% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+    {% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
 {# BODY#}
         {% block infoTitle %}Services{% endblock %}
         {% block info %}Services{% endblock %}
         {% block bodyTitle %}Services{% endblock %}
-        {% block body %}Services{% endblock %}
+        {% block body %}
+
+            <div class="row justify-content-around p-3">
+                {% for game in games %}
+                    <article class="card col-12 col-md-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
+                        <header class="card-header bg-primary border border-secondary shadow-lg">
+                            <a href="{{ path('showCategory', {'slug': game.gamebook.category.slug}) }}"><span class="badge badge-info small m-1
+                    float-right">{{ game.gamebook.category.icon | raw }} {{ game.gamebook.category.title }}</span></a>
+                            <a href="{{ path('showGamebook', {'slug': game.gamebook.slug}) }}"><span class="badge badge-info small m-1
+                    float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook.title }}</span></a>
+                            <h4>{{ game.title }}</h4>
+                        </header>
+                        <div class="card-body bg-secondary">
+                            <p class="card-text h5">{{ game.shortDescription }}</p>
+                            <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}" class="btn btn-success text-light
+float-right">Accéder au salon</a>
+                            {% if game.owner is same as (app.user) %}
+                                <a href="{{ path('edit', {'id': game.id,'slug': game.slug }) }}" class="btn btn-primary mr-1 text-light
+float-right"><i class="fas fa-user-plus"></i> Modifier la partie</a>
+                                <a href="{{ path('delete', {'id': game.id,'slug': game.slug }) }}" class="btn btn-primary mr-1 text-light
+float-right"><i class="fas fa-user-plus"></i> supprimer la partie</a>
+                                {% endif %}
+                        </div>
+                        <footer class="card-footer text-light">
+                            <span>Prochaine partie le {{ game.nextGameAt | date }}</span><br>
+                            <span>Serveur Vocal: {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</span>
+                        </footer>
+                    </article>
+                {% endfor %}
+            </div>
+
+        {% endblock %}

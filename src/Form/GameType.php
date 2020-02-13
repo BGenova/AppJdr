@@ -20,16 +20,18 @@ class GameType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, $this->setConfiguration('Titre de votre partie', 'Donnez un titre à votre partie', 'h3', 'h2', true))
-            ->add('shortDescription', TextType::class, $this->setConfiguration('Synopsis', 'Descrivez en quelques lignes le contexte de votre partie.', 'h3', 'h2', true))
-            ->add('longDescription', CKEditorType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h3', 'h2', true))
-            ->add('gameBook', null, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
-            ->add('vocalServer', null, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
-            ->add('coverImage', UrlType::class, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h3', 'h2', true))
+            ->add('title', TextType::class, $this->setConfiguration('Titre de votre partie', 'Donnez un titre à votre partie', 'h6', 'h2', true))
+            ->add('shortDescription', TextType::class, $this->setConfiguration('Synopsis', 'Descrivez en quelques lignes le contexte de votre partie.', 'h6', 'h2', true))
+            ->add('longDescription', CKEditorType::class, $this->setConfiguration('Description longue', 'Faite un description détaillé de votre partie,', 'h6', 'h2', true))
+            ->add('gameBook', null, $this->setConfiguration('Livre de règles', 'Choisir un livre de règles', 'h6', 'h2',
+                true))
+            ->add('vocalServer', null, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h6', 'h2', true))
+            ->add('coverImage', UrlType::class, $this->setConfiguration('Image de couverture', 'Une image pour l\'entête de votre partie', 'h6', 'h2', true))
             ->add('gameSlides', CollectionType::class,
                 [
                     'entry_type' => GameSlideType::class,
                     'allow_add' => true,
+                    'label' => false,
                     'allow_delete' => true,
                 ]
             )
@@ -37,6 +39,7 @@ class GameType extends ApplicationType
                 [
                     'entry_type' => GameBattleMapType::class,
                     'allow_add' => true,
+                    'label' => false,
                     'allow_delete' => true,
                 ]
             )
@@ -44,6 +47,7 @@ class GameType extends ApplicationType
                 [
                     'entry_type' => GameImageType::class,
                     'allow_add' => true,
+                    'label' => false,
                     'allow_delete' => true,
                 ]
             );

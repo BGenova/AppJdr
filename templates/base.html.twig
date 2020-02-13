@@ -9,12 +9,10 @@
     <meta name="Category" content="games">
     <meta name="Copyright" content="AppJDR">
     <meta name="Author" content="Bruno Genova">
-    <title>AppJdr - {% block title %}{% endblock %}
-    </title>
+    <title>AppJdr - {% block title %}{% endblock %}</title>
     <link rel="icon" href="/favicon.ico"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
-          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
     {% block stylesheets %}{% endblock %}
@@ -22,7 +20,6 @@
 <body class="bg-secondary container-fluid text-light p-0">
 
 {% include "/partials/navbar.html.twig" %}
-
 <main class="row p-0 col-11 justify-content-around mx-auto">
     <header class="bg-secondary p-3 titleHeader jumbotron m-3 shadow p-5 text-light col-12"
             style="background-image: url({% block headerImage %}{% endblock %})">
@@ -33,11 +30,7 @@
         <h2>{% block headerSubtitle %}{% endblock %}</h2>
         <p>{% block headerParagraph %}{% endblock %}</p>
         <div class="lead p-2 col-10 mx-auto text-center ">
-            <p class="lead">
-                <a class="btn btn-success btn-lg" href="{% block buttonLinkHeader %}{% endblock %}" role="button">{% block buttonHeader %}{%
-                        endblock
-                    %}</a>
-            </p>
+            <p class="lead"><a class="btn btn-success btn-lg" href="{% block buttonLinkHeader %}{% endblock %}" role="button">{% block buttonHeader %}{% endblock %}</a></p>
         </div>
     </header>
     <section class="col-12 col-sm-6 col-md-4 col-lg-3 card bg-primary shadow-lg pb-3">
@@ -47,14 +40,13 @@
         {% block info %}
         {% endblock %}
     </section>
-    <section class="col-12 col-sm-6 col-md-8 col-lg-9 border card bg-secondary border-primary pb-3">
+    <section class="col-12 col-sm-6 col-md-8 col-lg-9 bg-secondary pb-3">
         <hr class="bg-primary">
         <h3>{% block bodyTitle %}{% endblock %}</h3>
         <hr class="bg-primary">
         {% block body %}
         {% endblock %}
     </section>
-
     {% include "/partials/footer.html.twig" %}
 </main>
 <!-- Optional JavaScript -->

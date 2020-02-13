@@ -10,6 +10,7 @@ use App\Form\RegistrationType;
 use App\Repository\CategoryRepository;
 use App\Repository\GameRuleRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,6 +95,7 @@ class AccountController extends AbstractController
      * Display update profile
      *
      * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @return Response
      * @throws \Exception
@@ -126,6 +128,7 @@ class AccountController extends AbstractController
      * Change password
      *
      * @Route("/account/password-update", name="account_password")
+     * @IsGranted("ROLE_USER")
      *
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder

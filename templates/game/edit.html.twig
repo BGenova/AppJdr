@@ -144,12 +144,12 @@
             });
         }
 
-        function updateCounter() {
+        function updateCounterGameSlides() {
             const count = +$('#game_gameSlides div.form-group').length;
 
             $('#widgets-counter').val(count);
         }
-
+        updateCounterGameSlides();
         handleDeleteButtons();
     </script>
     <script>
@@ -168,6 +168,13 @@
             });
         }
 
+        function updateCounterBattleMaps() {
+            const count = +$('#game_gameBattleMaps div.form-group').length;
+
+            $('#widgets-counter').val(count);
+        }
+
+        updateCounterBattleMaps();
         handleDeleteButtons();
     </script>
     <script>
@@ -186,6 +193,13 @@
             });
         }
 
+        function updateCounterImages() {
+            const count = +$('#game_gameImages div.form-group').length;
+
+            $('#widgets-counter').val(count);
+        }
+
+        updateCounterImages();
         handleDeleteButtons();
     </script>
 {% endblock %}

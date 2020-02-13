@@ -3,11 +3,8 @@
 {% block title %}{{ category.title }}{% endblock %}
 {% block headerTitle %}{{ category.title }}{% endblock %}
 {% block headerSubtitle %}{{ category.shortDescription }}{% endblock %}
-{% block buttonSuccesUrl %}{% endblock %}
-{% block buttonSucces %}Se connecter{% endblock %}
-{% block buttonInfoUrl %}{% endblock %}
-{% block buttonInfo %}Bouton info{% endblock %}
-
+    {% block buttonHeader %}<i class="fas fa-user-plus"></i> Inscrivez-vous gratuitement !{% endblock %}
+    {% block buttonLinkHeader %}{{ path('account_registration') }}{% endblock %}
 {% block infoTitle %}
     {{ category.icon | raw }} {{ category.title }}
 {% endblock %}
@@ -29,24 +26,27 @@
                 <hr>
         <h4 CLASS="mb-3 text-center ">{{ gamebook.title }}</h4>
         <hr>
-        <div class="row col-12 justify-content-around mx-auto">
-        {% for game in gamebook.game %}
-                <div class="card col-12 col-md-6 bg-secondary shadow-lg p-0">
-                    <div class="card-header bg-primary">
-                        <span class="badge badge-info small m-1 float-right">{{ game.gamebook.title }}</span>
-                        <h2><span class="text-danger">{{ game.gamebook.icon | raw }}</span> {{ game.title }}</h2>
-                        <img src="" alt="">
-                    </div>
-                    <div class="card-body bg-secondary">
-                        <p class="card-text">{{game.shortDescription}}</p>
-                        <a href="{{ path('game', {'slug': game.slug,'id': game.id}) }}" class="btn btn-success">Accéder au salon</a>
-                        <a href="#" class="btn btn-info">Faire autre chose</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Crée le : {{ game.createdAt |date('d-m-Y ') }}
-                    </div>
+                <div class="row justify-content-around p-3">
+                    {% for game in gamebook.game %}
+                        <article class="card col-12 col-md-6 bg-secondary shadow-lg p-1 mx-auto border-primary mb-4">
+                            <header class="card-header bg-primary border border-secondary shadow-lg">
+                                <a href="{{ path('showCategory', {'slug': game.gamebook.category.slug}) }}"><span class="badge badge-info small m-1
+                    float-right">{{ game.gamebook.category.icon | raw }} {{ game.gamebook.category.title }}</span></a>
+                                <a href="{{ path('showGamebook', {'slug': game.gamebook.slug}) }}"><span class="badge badge-info small m-1
+                    float-right">{{ game.gamebook.icon | raw }} {{ game.gamebook.title }}</span></a>
+                                <h4>{{ game.title }}</h4>
+                            </header>
+                            <div class="card-body bg-secondary">
+                                <p class="card-text h5">{{ game.shortDescription }}</p>
+                                <a href="{{ path('game', {'id': game.id, 'slug': game.slug}) }}" class="btn btn-success text-light
+float-right">Accéder au salon</a>
+                            </div>
+                            <footer class="card-footer text-light">
+                                <span>Prochaine partie le {{ game.nextGameAt | date }}</span><br>
+                                <span>Serveur Vocal: {{ game.vocalServer.icon | raw }} {{ game.vocalServer.name }}</span>
+                            </footer>
+                        </article>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div> <!-- End row -->
     {% endfor %}
 {% endblock %}

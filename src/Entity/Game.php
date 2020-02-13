@@ -84,6 +84,7 @@ class Game
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\GameNote", mappedBy="game",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gameNotes;
 

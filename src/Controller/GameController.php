@@ -10,7 +10,10 @@ use App\Repository\GameRepository;
 use App\Repository\UserGameRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +22,11 @@ class GameController extends AbstractController
 {
 
     /**
+     * Edit game
+     *
      * @Route("/edit/game/{id}/{slug}", name="edit")
+     * @Security("is_granted('ROLE_USER') and user === game.getOwner()", message="Cette partie ne vous appartient pas, vous ne pouvez pas
+     * la modifiez")
      * @param Game $game
      * @param Request $request
      * @return Response
@@ -27,20 +34,23 @@ class GameController extends AbstractController
      */
     public function edit(Game $game, Request $request)
     {
-        // Create an ArrayCollection of the current objects in the Game database
+        // Create array existing GameSlide.
         $originalSlides = new ArrayCollection();
         foreach ($game->getGameSlides() as $gameSlides) {
             $originalSlides->add($gameSlides);
         }
+        // Create array for existing GameBattleMap
         $originalMap = new ArrayCollection();
         foreach ($game->getGameBattleMaps() as $gameBattleMaps) {
             $originalMap->add($gameBattleMaps);
         }
+        // Create array for existing GameImages
         $originalImages = new ArrayCollection();
-        foreach ($game->getGameSlides() as $gameImages) {
+        foreach ($game->getGameImages() as $gameImages) {
             $originalImages->add($gameImages);
         }
 
+//        Create edit form
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
@@ -48,6 +58,7 @@ class GameController extends AbstractController
             $game->setUpdatedAt(new DateTime());
             $manager = $this->getDoctrine()->getManager();
 
+//            Remove gameslides and his game relation
             foreach ($originalSlides as $gameSlides) {
                 if (false === $game->getGameSlides()->contains($gameSlides)) {
                     $gameSlides->getGame()->removeGameSlide($gameSlides);
@@ -55,6 +66,7 @@ class GameController extends AbstractController
                     $manager->remove($gameSlides);
                 }
             }
+//            Persist new gameslide
             foreach ($game->getGameSlides() as $gameSlides) {
                 $gameSlides->setGame($game);
                 $manager->persist($gameSlides);
@@ -74,6 +86,7 @@ class GameController extends AbstractController
 
             foreach ($originalImages as $gameImages) {
                 if (false === $game->getGameImages()->contains($gameImages)) {
+//                    dd($gameImages);
                     $gameImages->getGame()->removeGameImage($gameImages);
                     $manager->persist($gameImages);
                     $manager->remove($gameImages);
@@ -119,6 +132,7 @@ class GameController extends AbstractController
      * Create new game
      *
      * @Route("/games/create", name="create")
+     * @IsGranted("ROLE_USER")
      *
      * @param Request $request
      * @return Response
@@ -130,9 +144,7 @@ class GameController extends AbstractController
         $game = new Game();
         $game->setCreatedAt(new DateTime());
         $game->setOwner($user);
-//        $usergame = new UserGame();
-//        $usergame->setUsers($user);
-//        $usergame->setGames($game);
+
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
@@ -150,7 +162,6 @@ class GameController extends AbstractController
                 $gameImages->setGame($game);
                 $manager->persist($gameImages);
             }
-//            $manager->persist($usergame);
             $manager->persist($game);
             $manager->flush();
 
@@ -221,5 +232,25 @@ class GameController extends AbstractController
             'game' => $game,
             'usergames' => $usergame
         ]);
+    }
+
+    /**
+     * Delete game
+     *
+     * @Route("/games/delete/{id}/{slug}", name="delete")
+     * @Security("is_granted('ROLE_USER') and user == game.getOwner()", message="Vous n'avez pas le droit d'accéder a ce contenue")
+     *
+     * @param Game $game
+     * @return RedirectResponse
+     */
+    public function delete(Game $game)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($game);
+        $manager->flush();
+
+        $this->addFlash("success", "L'annonce {$game->getTitle()} à bien été supprimer");
+
+        return $this->redirectToRoute("home");
     }
 }

@@ -32,7 +32,7 @@ class GameNote
     private $icon;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="gameNotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game", inversedBy="gameNotes", cascade={"persist"})
      */
     private $game;
 

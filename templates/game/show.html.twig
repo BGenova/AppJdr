@@ -33,7 +33,7 @@
                     class="badge badge-info text-uppercase float-right">{{ game.owner.games | length }} Partie crée</span></p>
         {% if game.owner is same as (app.user) %}
             <a href="#" class="col-12 btn btn-primary btn-sm small" data-toggle="modal" data-target="#test"><i class="fas
-            fa-user-plus"></i> Ajouter un joueur(se)</a>
+            fa-user-plus"></i> Ajouter un joueur(se)<a/a>
             <hr class="bg-secondary">
 
             <a href="{{ path('edit', {'id': game.id,'slug': game.slug }) }}" class="col-12 btn btn-primary btn-sm small"><i
@@ -62,7 +62,7 @@
 {% endblock %}
 {% block bodyTitle %}{{ game.title }}{% endblock %}
 {% block body %}
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide col-10 mx-auto" data-ride="carousel">
         <ol class="carousel-indicators">
             {% for slide in game.gameSlides %}
                 <li data-target="#carouselExampleIndicators"
@@ -72,7 +72,7 @@
         <div class="carousel-inner">
             {% for slide in game.gameSlides %}
                 <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <img class="d-block w-100" src="{{ slide.url }}" alt="First slide">
+                    <img class="d-block" src="{{ slide.url }}" alt="First slide">
                 </div>
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ game.title }}</h5>

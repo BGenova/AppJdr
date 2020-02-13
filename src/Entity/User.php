@@ -6,12 +6,18 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="L'email '{{ value }}' est déja utilisé."
+ * )
  */
 class User implements UserInterface
 {
@@ -29,16 +35,31 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Le prenom doit avoir minimum {{ limit }} caractères",
+     *      maxMessage = "Le prenom ne peut pas avoir plus de  {{ limit }} caractères"
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Le nom doit avoir minimum {{ limit }} caractères",
+     *      maxMessage = "Le nom ne peut pas avoir plus de  {{ limit }} caractères"
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *     message = "L' email '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
@@ -54,6 +75,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 50,
+     *       minMessage = "L'introduction doit avoir minimum {{ limit }} caractères",
+     *      maxMessage = "L'introduction ne peut pas avoir plus de  {{ limit }} caractères"
+     * )
      */
     private $shortDescription;
 
@@ -74,6 +101,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/(?=.*[0-9])/",
+     *     match=true,
+     *     message="Votre password doit contenir un caractère alphanumeric"
+     * )
+     * @Assert\Regex(
+     *     pattern="/(?=.*[A-Z])/",
+     *     match=true,
+     *     message="Votre password doit contenir un caractère majuscule"
+     * )
+     * @Assert\Regex(
+     *     pattern="/(?=.*\W)/",
+     *     match=true,
+     *     message="Votre password doit contenir un caractère spciale"
+     * )
      */
     private $hash;
 
@@ -97,11 +139,17 @@ class User implements UserInterface
      */
     private $gameNotes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
+     */
+    private $userRole;
+
     public function __construct()
     {
         $this->userGames = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->gameNotes = new ArrayCollection();
+        $this->userRole = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -326,7 +374,13 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = $this->userRole->map(function ($role){
+
+            return $role->getTitle();
+        })->toArray();
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
     }
 
     /**
@@ -392,6 +446,34 @@ class User implements UserInterface
             if ($gameNote->getUser() === $this) {
                 $gameNote->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRole(): Collection
+    {
+        return $this->userRole;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRole->contains($userRole)) {
+            $this->userRole[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRole->contains($userRole)) {
+            $this->userRole->removeElement($userRole);
+            $userRole->removeUser($this);
         }
 
         return $this;
